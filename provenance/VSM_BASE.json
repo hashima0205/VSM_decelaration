@@ -1,0 +1,26 @@
+{
+  "upstream_repository": "https://github.com/hashima0205/gfm-deceleration-separated-equilibria",
+  "upstream_commit": "3569b4cba0f5d6bee9e7bf1377ec9c52a599cc11",
+  "upstream_files": 284,
+  "vsm_source_repository": "https://github.com/hashima0205/VSM_decelaration",
+  "vsm_source_commit": "91f98f7c193d43b5f407b574e2166f1beccdec66",
+  "vsm_source_path": "vsm/code/vsm.jl",
+  "changes": "VSM coordinate/RHS adapter, integration routing, VSM-inclusive restart signatures, documentation and tests. All upstream data, provenance dependencies and saved results retained.",
+  "modified_upstream_files": [
+    "README.md",
+    "code/engine12.jl",
+    "code/model.jl",
+    "code/run.jl",
+    "code/run_B100_Kp01.jl",
+    "code/run_B100_tau_comparison.jl",
+    "code/run_basin.jl",
+    "code/run_capacitor_k_strength.jl",
+    "code/run_capacitor_neighborhood.jl",
+    "code/run_capacitor_probe.jl",
+    "code/run_fast_tau_search.jl",
+    "code/run_tau010_basin.jl",
+    "code/run_tau010_chord_basin.jl",
+    "code/run_trajectory_voltage_probes.jl",
+    "code/run_voltage_refined_probe.jl"
+  ]
+}
