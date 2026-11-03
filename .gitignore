@@ -1,0 +1,16 @@
+# Local workspace configuration and transfer records
+/.agents/
+/.codex/
+/.aws/
+/README_VSM.md
+/VSM_TRANSFER.json
+
+# Recomputed output and local environments
+/runs/
+/.venv/
+/dist/
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
