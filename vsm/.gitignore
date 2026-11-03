@@ -1,0 +1,16 @@
+/logs/*
+!/logs/.gitkeep
+/figures/*
+!/figures/.gitkeep
+/checkpoints/*
+!/checkpoints/.gitkeep
+/data/*
+!/data/seeds/
+/data/seeds/*_verified.csv
+/tables/*
+!/tables/SCR_source.csv
+/provenance/runtime.txt
+/REPORT.md
+/REPORT.pdf
+__pycache__/
+*.pyc

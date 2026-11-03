@@ -1,0 +1,10 @@
+{
+  "cases": 10,
+  "parameters_verified": true,
+  "external_SCR_verified": true,
+  "event_continuity_verified": true,
+  "finite_300s_trajectories": true,
+  "all_roots_locally_stable": true,
+  "max_root_residual": 8.67518312642453e-12,
+  "max_event_residual": 9.756029317742332e-11
+}

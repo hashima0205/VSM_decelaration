@@ -1,0 +1,33 @@
+{
+  "case": "case0788",
+  "fault_on_absolute_s": 1.0,
+  "fault_duration_s": 0.15,
+  "clearing_absolute_s": 1.15,
+  "post_horizon_s": 300.0,
+  "buses": [
+    1,
+    2,
+    3,
+    7
+  ],
+  "remote_buses": [
+    2,
+    3,
+    7
+  ],
+  "slack_bus": 6,
+  "base_frequency_Hz": 60.0,
+  "taup_s": 1.087,
+  "tauq_s": 1.087,
+  "k": 1.0299,
+  "load_conductance_multiplier": 2.461761102780045,
+  "Pset_pu": [
+    0.5,
+    0.4,
+    0.4,
+    0.4
+  ],
+  "fault": "20 pu passive bus4 shunt removed simultaneously with line4-5 opening",
+  "initialization": "Same frozen verified prefault equilibrium for all numerical configurations; full pre/fault/post integration in every run.",
+  "excluded_case": "GitHub example taup=1.20 s, tauq=0.02 s is not used."
+}
