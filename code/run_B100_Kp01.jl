@@ -28,7 +28,7 @@ function kp01main()
     xp=vec(readdlm(joinpath(seed,"pre.csv"),',',Float64));xs=vec(readdlm(joinpath(seed,"stable.csv"),',',Float64));xu=vec(readdlm(joinpath(seed,"saddle.csv"),',',Float64))
     files=[@__FILE__,KP01_BASE,KP01_GRID,K_SOURCE,joinpath(@__DIR__,"adaptive_probe_metrics.jl"),joinpath(@__DIR__,"model.jl"),joinpath(@__DIR__,"engine12.jl")]
     append!(files,sort([joinpath(r,f) for (r,ds,fs) in walkdir(SNAP) for f in fs if endswith(f,".jl") || endswith(f,".csv")]))
-    signature=bytes2hex(sha256(string(VERSION,xp,xs,xu,BK,KB,BTAUS,BGLOBAL_THETA,BGLOBAL_FREQ,BLOCAL_ALPHA,BLOCAL_FREQ,BHORIZONS)*join(bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl"))))) for f in files)))
+    signature=bytes2hex(sha256(string(VERSION,xp,xs,xu,BK,KB,BTAUS,BGLOBAL_THETA,BGLOBAL_FREQ,BLOCAL_ALPHA,BLOCAL_FREQ,BHORIZONS)*join(bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl")),codeunits(string(VSM_DAMPING))))) for f in files)))
     sig=joinpath(OUTP,"configuration.sha256")
     if isfile(sig);@assert strip(read(sig,String))==signature
     else;@assert isempty(readdir(OUTP));write(sig,signature*"\n");end

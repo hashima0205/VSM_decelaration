@@ -21,7 +21,7 @@ for row in manifest[2:end]
  # Refuse reuse after a manifest, runner, numerical engine, or model change.
  sources=vcat([joinpath(@__DIR__,f) for f in ["run.jl","model.jl","engine12.jl"]],
               sort([joinpath(root,f) for (root,dirs,files) in walkdir(SNAP) for f in files if endswith(f,".jl")||endswith(f,".csv")]))
- signature=bytes2hex(sha256(row*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl"))))) for f in sources])))
+ signature=bytes2hex(sha256(row*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl")),codeunits(string(VSM_DAMPING))))) for f in sources])))
  directory=joinpath(CHECK,tag);mkpath(directory);signature_file=joinpath(directory,"configuration.sha256")
  if isfile(signature_file)
   @assert strip(read(signature_file,String))==signature "Changed condition: use a new case name."

@@ -39,16 +39,16 @@ function endpointp(x,p)
     @assert er<1e-8 && y[DYN]==before
     y,er
 end
-function integratep(tag,x,p,a,b;step=.05)
+function integratep(tag,x,p,a,b;step=.05,washout_state=nothing)
     path=joinpath(OUTP,tag*".bin");mkpath(dirname(path))
     if isfile(path);return deserialize(path);end
     y,er=endpointp(x,p)
     times=sort(unique(vcat(collect(a:step:b),collect(a:.0001:min(a+.02,b)),[a,b])))
     tick=time()
-    sol=solve_vsm(y,p,(a,b),Rodas5P();reltol=1e-9,abstol=1e-11,dtmax=.005,
+    sol=solve_vsm(y,p,(a,b),Rodas5P();washout_state=washout_state,reltol=1e-9,abstol=1e-11,dtmax=.005,
               saveat=times,save_everystep=false,dense=false,maxiters=10^8)
     @assert string(sol.retcode)=="Success" "Solver failed in $tag"
-    result=(t=collect(sol.t),u=[copy(v) for v in sol.u],solve_s=time()-tick)
+    result=(t=collect(sol.t),u=[copy(v) for v in sol.u],solve_s=time()-tick,washout=sol.washout)
     serialize(path*".tmp",result);mv(path*".tmp",path;force=true)
     result
 end
@@ -65,7 +65,8 @@ end
 
 function neighborhoodp()
     # Reintegrate once to retain full states at actual trajectory anchors.
-    ref=integratep("reference_post160",CLEARP,POSTP,0.,160.;step=.02)
+    ref=integratep("reference_post160",CLEARP,POSTP,0.,160.;step=.02,
+        washout_state=vec(readdlm(joinpath(CHECK,"tau010_T015_h150/fault_washout_end.csv"),',',Float64)))
     at(t)=begin
         j=argmin(abs.(ref.t.-t));@assert abs(ref.t[j]-t)<1e-8;copy(ref.u[j])
     end
@@ -86,8 +87,10 @@ function neighborhoodp()
             push!(initials,vcat([tag,ai,anchor_time,da,df],x))
             push!(audits,[tag,er,phasep(x)-theta0-da,freqp(x)-frequency0-df,0.])
             t=[0.];u=[copy(x)];last=0.;label="unresolved";turns=0.;machines=[];solve_s=0.
+            washout=ref.washout[argmin(abs.(ref.t.-anchor_time))]
             for stop in [30.,60.,150.]
-                result=integratep(tag*"_h"*string(Int(stop)),x,POSTP,last,stop)
+                result=integratep(tag*"_h"*string(Int(stop)),x,POSTP,last,stop;washout_state=washout)
+                washout=copy(result.washout[end])
                 appendp!(t,u,result);x=copy(u[end]);last=t[end];solve_s+=result.solve_s
                 label,turns,machines=classify_probe(t,u,STP)
                 push!(hist,[tag,ai,anchor_time,stop,label,result.solve_s])
@@ -148,10 +151,12 @@ function voltagep()
                 push!(parameter_rows,[tag,stage,b,tp,tq,ps])
             end
             a=integratep(tag*"_pre",previous_pre,pre,0.,1.;step=.01)
-            b=integratep(tag*"_fault",a.u[end],on,1.,1.15;step=.0005)
+            b=integratep(tag*"_fault",a.u[end],on,1.,1.15;step=.0005,washout_state=a.washout[end])
             x=copy(b.u[end]);t=[0.];u=[endpointp(x,post)[1]];last=0.;solve_s=a.solve_s+b.solve_s
+            washout=b.washout[end]
             for stop in [30.,60.,150.]
-                result=integratep(tag*"_post"*string(Int(stop)),u[end],post,last,stop)
+                result=integratep(tag*"_post"*string(Int(stop)),u[end],post,last,stop;washout_state=washout)
+                washout=copy(result.washout[end])
                 appendp!(t,u,result);last=stop;solve_s+=result.solve_s
             end
             label,turns,machines=classify_probe(t,u,previous_post)
@@ -176,7 +181,7 @@ function mainp()
     mkpath(OUTP)
     files=[@__FILE__,joinpath(@__DIR__,"adaptive_probe_metrics.jl"),joinpath(@__DIR__,"model.jl"),joinpath(@__DIR__,"engine12.jl")]
     append!(files,sort([joinpath(r,f) for (r,ds,fs) in walkdir(SNAP) for f in fs if endswith(f,".jl") || endswith(f,".csv")]))
-    signature=bytes2hex(sha256(string(VERSION,STP,PREP,POSTP,BEFOREP,CLEARP,ANCHOR_TIMES,ANGLE_OFFSETS,FREQ_OFFSETS,LOAD_FACTORS,VOLTAGE_TAUS)*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl"))))) for f in files])))
+    signature=bytes2hex(sha256(string(VERSION,STP,PREP,POSTP,BEFOREP,CLEARP,ANCHOR_TIMES,ANGLE_OFFSETS,FREQ_OFFSETS,LOAD_FACTORS,VOLTAGE_TAUS)*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl")),codeunits(string(VSM_DAMPING))))) for f in files])))
     sig=joinpath(OUTP,"configuration.sha256")
     if isfile(sig);@assert strip(read(sig,String))==signature "Inputs/code changed: use a new output directory"
     else;@assert isempty(readdir(OUTP));write(sig,signature*"\n");end

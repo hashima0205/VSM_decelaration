@@ -31,8 +31,10 @@ function bbasin(xs,xu,tau,points)
         before=copy(x[DYN]);x,er=endpointp(x,p);@assert x[DYN]==before
         push!(initials,vcat([tag,grid,alpha,df],x));push!(audits,[tag,er,maximum(abs.(x[DYN]-before))])
         t=[0.];u=[copy(x)];last=0.;label="unresolved";turns=0.;ms=[]
+        washout=nothing
         for stop in BHORIZONS
-            result=integratep(tag*"_h"*string(Int(stop)),u[end],p,last,stop)
+            result=integratep(tag*"_h"*string(Int(stop)),u[end],p,last,stop;washout_state=washout)
+            washout=copy(result.washout[end])
             appendp!(t,u,result);last=stop;label,turns,ms=classify_probe(t,u,xs)
             push!(hist,[tag,stop,label,result.solve_s])
             label in ["unresolved","other"] || break
@@ -62,7 +64,7 @@ function bmain()
     xp=vec(readdlm(joinpath(seed,"fast_12_pre_root.csv"),',',Float64))
     xs=vec(readdlm(joinpath(seed,"fast_12_post_root.csv"),',',Float64))
     xu0=vec(readdlm(joinpath(PACK,"basin_recalculation/capacitor_k_strength/k080_saddle.csv"),',',Float64))
-    signature=bytes2hex(sha256(string(VERSION,xp,xs,xu0,BK,KB,BTAUS,BGLOBAL_THETA,BGLOBAL_FREQ,BLOCAL_ALPHA,BLOCAL_FREQ,BHORIZONS)*join(bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl"))))) for f in files)))
+    signature=bytes2hex(sha256(string(VERSION,xp,xs,xu0,BK,KB,BTAUS,BGLOBAL_THETA,BGLOBAL_FREQ,BLOCAL_ALPHA,BLOCAL_FREQ,BHORIZONS)*join(bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl")),codeunits(string(VSM_DAMPING))))) for f in files)))
     sig=joinpath(OUTP,"configuration.sha256")
     if isfile(sig);@assert strip(read(sig,String))==signature
     else;@assert isempty(readdir(OUTP));write(sig,signature*"\n");end

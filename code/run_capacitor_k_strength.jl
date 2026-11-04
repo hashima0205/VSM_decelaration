@@ -50,10 +50,12 @@ function kphysical(tag,xp,xs,k,tau)
     on=copy(pre);NWState(NW,copy(xp),on,0.).p[VIndex(4,:fault_load₊fault_enabled_p)]=1.
     for (name,p) in [("pre",pre),("fault",on),("post",post)];savevec(joinpath(OUTP,tag*"_"*name*"_parameters.csv"),p);end
     a=integratep(tag*"_pre",xp,pre,0.,1.;step=.01)
-    f=integratep(tag*"_fault",a.u[end],on,1.,1.15;step=.0005)
+    f=integratep(tag*"_fault",a.u[end],on,1.,1.15;step=.0005,washout_state=a.washout[end])
     t=[0.];u=[endpointp(f.u[end],post)[1]];last=0.
+    washout=f.washout[end]
     for stop in [30.,60.,150.]
-        result=integratep(tag*"_post"*string(Int(stop)),u[end],post,last,stop)
+        result=integratep(tag*"_post"*string(Int(stop)),u[end],post,last,stop;washout_state=washout)
+        washout=copy(result.washout[end])
         appendp!(t,u,result);last=stop
     end
     label,turns,ms=classify_probe(t,u,xs)
@@ -71,8 +73,10 @@ function kbasin(xs,xu,k,tau)
         before=copy(x[DYN]);x,er=endpointp(x,p);@assert x[DYN]==before
         push!(initials,vcat([tag,alpha,df],x));push!(audits,[tag,er,maximum(abs.(x[DYN]-before))])
         t=[0.];u=[copy(x)];last=0.;label="unresolved";turns=0.;ms=[]
+        washout=nothing
         for stop in [30.,60.,150.]
-            result=integratep(tag*"_h"*string(Int(stop)),u[end],p,last,stop)
+            result=integratep(tag*"_h"*string(Int(stop)),u[end],p,last,stop;washout_state=washout)
+            washout=copy(result.washout[end])
             appendp!(t,u,result);last=stop;label,turns,ms=classify_probe(t,u,xs)
             push!(hist,[tag,stop,label,result.solve_s])
             label in ["unresolved","other"] || break
@@ -98,7 +102,7 @@ function kmain()
     mkpath(OUTP)
     files=[@__FILE__,K_SOURCE,joinpath(@__DIR__,"adaptive_probe_metrics.jl"),joinpath(@__DIR__,"model.jl"),joinpath(@__DIR__,"engine12.jl")]
     append!(files,sort([joinpath(r,f) for (r,ds,fs) in walkdir(SNAP) for f in fs if endswith(f,".jl") || endswith(f,".csv")]))
-    signature=bytes2hex(sha256(string(VERSION,PREP,STP,POSTP,BEFOREP,KB,KVALUES,KTAUS,KALPHA,KFREQ)*join(bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl"))))) for f in files)))
+    signature=bytes2hex(sha256(string(VERSION,PREP,STP,POSTP,BEFOREP,KB,KVALUES,KTAUS,KALPHA,KFREQ)*join(bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl")),codeunits(string(VSM_DAMPING))))) for f in files)))
     sig=joinpath(OUTP,"configuration.sha256")
     if isfile(sig);@assert strip(read(sig,String))==signature
     else;@assert isempty(readdir(OUTP));write(sig,signature*"\n");end

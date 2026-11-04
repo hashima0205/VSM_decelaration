@@ -1,3 +1,5 @@
+> **追加減衰の実装:** D₁・D₂を独立に設定できます。現在の既定値はD₁=0、D₂=100、ωD=50 s⁻¹です。以前の等価VSM結果を再現する場合は`VSM_D1=0 VSM_D2=0`を指定してください。[追加減衰の設定と状態保存](docs/VSM_DAMPING.md)を参照してください。
+
 # VSM版：Droopシミュレーション環境への適用
 
 このリポジトリは[Droop版](https://github.com/hashima0205/gfm-deceleration-separated-equilibria/tree/3569b4cba0f5d6bee9e7bf1377ec9c52a599cc11)の全ファイルを基に、既存VSMの状態変換と動揺方程式を適用したものです。**新しいシミュレーションはVSMで積分します。下に掲載されている保存図・参照結果はクローン元のDroop計算です。**
@@ -12,7 +14,7 @@ python -m pip install -r code/requirements.txt
 python code/check_vsm_base.py
 mkdir -p logs
 julia --project=provenance --startup-file=no code/check_vsm.jl > logs/vsm_validation.log 2>&1
-julia --project=provenance --startup-file=no code/run.jl smoke.csv > logs/vsm_smoke.log 2>&1
+VSM_D1=0 VSM_D2=0 julia --project=provenance --startup-file=no code/run.jl smoke.csv > logs/vsm_smoke.log 2>&1
 python code/check_reference.py --smoke
 ```
 

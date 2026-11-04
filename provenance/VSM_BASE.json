@@ -22,5 +22,25 @@
     "code/run_tau010_chord_basin.jl",
     "code/run_trajectory_voltage_probes.jl",
     "code/run_voltage_refined_probe.jl"
-  ]
+  ],
+  "additional_damping": {
+    "date": "2026-11-04",
+    "mechanisms": [
+      "D1 proportional frequency damping",
+      "D2 washout transient damping"
+    ],
+    "default": {
+      "D1": 0,
+      "D2": 100,
+      "omegaD_per_second": 50
+    },
+    "smoke_test": {
+      "D1": 10,
+      "D2": 100,
+      "omegaD_per_second": 50,
+      "postfault_seconds": 30,
+      "retcode": "Success"
+    },
+    "test_assertions_passed": 92
+  }
 }

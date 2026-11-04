@@ -70,7 +70,7 @@ function capmain()
     mkpath(OUTP)
     files=[@__FILE__,CAP_SOURCE,joinpath(@__DIR__,"adaptive_probe_metrics.jl"),joinpath(@__DIR__,"model.jl"),joinpath(@__DIR__,"engine12.jl")]
     append!(files,sort([joinpath(r,f) for (r,ds,fs) in walkdir(SNAP) for f in fs if endswith(f,".jl") || endswith(f,".csv")]))
-    signature=bytes2hex(sha256(string(VERSION,TARGETS_CAP,PREP,STP,BEFOREP,POSTP)*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl"))))) for f in files])))
+    signature=bytes2hex(sha256(string(VERSION,TARGETS_CAP,PREP,STP,BEFOREP,POSTP)*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl")),codeunits(string(VSM_DAMPING))))) for f in files])))
     sig=joinpath(OUTP,"configuration.sha256")
     if isfile(sig);@assert strip(read(sig,String))==signature
     else;@assert isempty(readdir(OUTP));write(sig,signature*"\n");end
@@ -104,10 +104,12 @@ function capmain()
                 end
             end
             a=integratep(tag*"_pre",xp,pre,0.,1.;step=.01)
-            f=integratep(tag*"_fault",a.u[end],on,1.,1.15;step=.0005)
+            f=integratep(tag*"_fault",a.u[end],on,1.,1.15;step=.0005,washout_state=a.washout[end])
             t=[0.];u=[endpointp(f.u[end],post)[1]];last=0.;solve_s=a.solve_s+f.solve_s
+            washout=f.washout[end]
             for stop in [30.,60.,150.]
-                result=integratep(tag*"_post"*string(Int(stop)),u[end],post,last,stop)
+                result=integratep(tag*"_post"*string(Int(stop)),u[end],post,last,stop;washout_state=washout)
+                washout=copy(result.washout[end])
                 appendp!(t,u,result);last=stop;solve_s+=result.solve_s
             end
             targetroot=post_found ? xq : fill(NaN,length(xp))

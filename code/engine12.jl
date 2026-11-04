@@ -17,6 +17,9 @@ function algfix!(x,p)
     NW(f,x,p,0.);maximum(abs.(f[ALG]))
 end
 function eqcheck(x,p)
+    if isdefined(@__MODULE__,:VSM_DAMPING) && (VSM_DAMPING.d1>0 || VSM_DAMPING.d2>0)
+        return damped_eqcheck(x,p)
+    end
     f=similar(x);NW(f,x,p,0.);J=fd(NW,x,p)
     e=eigvals(Diagonal(1 ./ MASS[DYN])*(J[DYN,DYN]-J[DYN,ALG]*(J[ALG,ALG]\J[ALG,DYN])))
     maximum(abs.(f)),maximum(real.(e)),sum(real.(e).>1e-7)
@@ -66,19 +69,31 @@ function auditparams(tag,stage,p,tau)
 end
 function segment(tag,label,x,p,a,b,clear;level="A",solver="Rodas5P",step=.02)
     dir=joinpath(CHECK,tag);mkpath(dir);file=joinpath(dir,label*".csv");state=joinpath(dir,label*"_end.csv")
-    if isfile(file)&&isfile(state);return vec(readdlm(state,',',Float64)),"Success";end
+    washfile=joinpath(dir,label*"_washout_end.csv")
+    if isfile(file)&&isfile(state)
+        @assert isfile(washfile) "Missing damping state: use a fresh case/output directory."
+        VSM_CONTINUATION[tag]=vec(readdlm(washfile,',',Float64))
+        return vec(readdlm(state,',',Float64)),"Success"
+    end
+    z=a==0 ? nothing : get(VSM_CONTINUATION,tag,nothing)
+    @assert a==0 || z!==nothing "Missing washout continuation state"
     x=copy(x);before=copy(x[DYN]);err=algfix!(x,p);@assert err<1e-8&&x[DYN]==before
+    savevec(joinpath(dir,label*"_washout_initial.csv"),z===nothing ? to_vsm(x,p)[PFI] : z)
+    savevec(joinpath(dir,label*"_damping.csv"),[VSM_DAMPING.d1,VSM_DAMPING.d2,VSM_DAMPING.omega_d]);
     savevec(joinpath(dir,label*"_initial.csv"),x);savevec(joinpath(dir,label*"_parameters.csv"),p)
     rt,at,dt=level=="A" ? (1e-9,1e-11,.005) : (1e-10,1e-12,.0025)
     dense_times=collect(a:.0001:min(b,a+.02));samples=sort(unique(vcat(collect(a:step:b),dense_times,[a,b])))
-    tick=time();sol=solve_vsm(x,p,(a,b),solver=="Rodas4P" ? Rodas4P() : Rodas5P();reltol=rt,abstol=at,dtmax=dt,maxiters=10^8,saveat=samples,save_everystep=false,dense=false)
+    tick=time();sol=solve_vsm(x,p,(a,b),solver=="Rodas4P" ? Rodas4P() : Rodas5P();washout_state=z,reltol=rt,abstol=at,dtmax=dt,maxiters=10^8,saveat=samples,save_everystep=false,dense=false)
     open(file*".tmp","w") do io
         println(io,join(vcat(["t_absolute_s","t_post_s","stage"],["b$(b)_$(k)" for b in ALLG for k in KEYNAMES],"alg_residual"),","))
         for (t,u) in zip(sol.t,sol.u);println(io,join(vcat([t,t-clear,label],obs(u,p,t)),","));end
     end
     mv(file*".tmp",file;force=true)
     appendrow(joinpath(dir,"progress.csv"),"stage,end_time,retcode,runtime_s,solver,reltol,abstol,dtmax,regular_save_s",[label,sol.t[end],sol.retcode,time()-tick,solver,rt,at,dt,step])
-    string(sol.retcode)=="Success"&&savevec(state,sol.u[end])
+    if string(sol.retcode)=="Success"
+        savevec(washfile,sol.washout[end]);savevec(state,sol.u[end])
+        VSM_CONTINUATION[tag]=copy(sol.washout[end])
+    end
     copy(sol.u[end]),string(sol.retcode)
 end
 function recovercheck(x,p,target)

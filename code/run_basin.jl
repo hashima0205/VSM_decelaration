@@ -39,7 +39,7 @@ for source in selected
     end
     appendrow(joinpath(BASIN_OUTPUT,"initialization.csv"),"case,algebraic_residual,theta_error_rad,df_error_Hz,held_change",[source,err,angle-theta,freq-frequency,maximum(abs.(x[BASIN_HELD]-base[BASIN_HELD]))])
     codepaths=vcat([joinpath(@__DIR__,f) for f in ["run_basin.jl","model.jl","engine12.jl"]],sort([joinpath(root,f) for (root,dirs,files) in walkdir(SNAP) for f in files if endswith(f,".jl")||endswith(f,".csv")]))
-    fingerprint=bytes2hex(sha256(join(a,",")*join(string.(BASIN_INITIAL[source]))*join(string.(p))*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl"))))) for f in codepaths])))
+    fingerprint=bytes2hex(sha256(join(a,",")*join(string.(BASIN_INITIAL[source]))*join(string.(p))*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl")),codeunits(string(VSM_DAMPING))))) for f in codepaths])))
     directory=joinpath(CHECK,tag);mkpath(directory);signature=joinpath(directory,"configuration.sha256")
     if isfile(signature)
         @assert strip(read(signature,String))==fingerprint "Changed saved basin input or code: use a fresh checkout/workspace."

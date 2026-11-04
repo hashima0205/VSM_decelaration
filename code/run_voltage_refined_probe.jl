@@ -40,7 +40,7 @@ function refined_main()
     mkpath(OUTP)
     files=[@__FILE__,PROBE_SOURCE,joinpath(@__DIR__,"adaptive_probe_metrics.jl"),joinpath(@__DIR__,"model.jl"),joinpath(@__DIR__,"engine12.jl")]
     append!(files,sort([joinpath(r,f) for (r,ds,fs) in walkdir(SNAP) for f in fs if endswith(f,".jl") || endswith(f,".csv")]))
-    signature=bytes2hex(sha256(string(VERSION,STP,PREP,POSTP,BEFOREP,LOAD_FACTORS,VOLTAGE_TAUS)*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl"))))) for f in files])))
+    signature=bytes2hex(sha256(string(VERSION,STP,PREP,POSTP,BEFOREP,LOAD_FACTORS,VOLTAGE_TAUS)*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl")),codeunits(string(VSM_DAMPING))))) for f in files])))
     sig=joinpath(OUTP,"configuration.sha256")
     if isfile(sig);@assert strip(read(sig,String))==signature
     else;@assert isempty(readdir(OUTP));write(sig,signature*"\n");end

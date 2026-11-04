@@ -77,7 +77,7 @@ function main010()
     started=time()
     sources=[@__FILE__,joinpath(@__DIR__,"model.jl"),joinpath(@__DIR__,"engine12.jl")]
     append!(sources,sort([joinpath(root,f) for (root,dirs,files) in walkdir(SNAP) for f in files if endswith(f,".jl") || endswith(f,".csv")]))
-    fingerprint=bytes2hex(sha256(string(VERSION,PA010,ST010,SA010,XGRID010,YGRID010,HORIZONS010)*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl"))))) for f in sources])))
+    fingerprint=bytes2hex(sha256(string(VERSION,PA010,ST010,SA010,XGRID010,YGRID010,HORIZONS010)*join([bytes2hex(sha256(vcat(read(f),read(joinpath(@__DIR__,"vsm.jl")),codeunits(string(VSM_DAMPING))))) for f in sources])))
     sig=joinpath(OUT010,"configuration.sha256")
     if isfile(sig)
         @assert strip(read(sig,String))==fingerprint "Inputs/code changed: preserve the old output and use a new output directory."
@@ -121,22 +121,23 @@ function main010()
         push!(initials,vcat([tag],x))
         push!(audit,[tag,er,actual_theta-theta,actual_df-frequency,0.])
         t=Float64[0.];u=[copy(x)];last=0.;label="unresolved";turns=0.;machines=[]
+        washout=nothing
         for stop in HORIZONS010
             checkpoint=joinpath(OUT010,tag*"_h"*string(Int(stop))*".bin")
             runtime=0.;retcode="Success"
             if isfile(checkpoint)
-                tt,uu,runtime=deserialize(checkpoint)
+                tt,uu,runtime,washout=deserialize(checkpoint)
             else
                 before=copy(x[DYN]);er=algfix!(x,PA010);@assert er<1e-8 && x[DYN]==before
                 samples=sort(unique(vcat(collect(last:.05:stop),collect(last:.0001:min(stop,last+.02)),[last,stop])))
                 tick=time()
                 sol=solve_vsm(copy(x),PA010,(last,stop),Rodas5P();
-                    reltol=1e-9,abstol=1e-11,dtmax=.005,maxiters=10^8,
+                    washout_state=washout,reltol=1e-9,abstol=1e-11,dtmax=.005,maxiters=10^8,
                     saveat=samples,save_everystep=false,dense=false)
-                runtime=time()-tick;retcode=string(sol.retcode)
+                washout=copy(sol.washout[end]);runtime=time()-tick;retcode=string(sol.retcode)
                 tt=collect(sol.t);uu=[copy(v) for v in sol.u]
                 if retcode=="Success"
-                    serialize(checkpoint*".tmp",(tt,uu,runtime));mv(checkpoint*".tmp",checkpoint;force=true)
+                    serialize(checkpoint*".tmp",(tt,uu,runtime,washout));mv(checkpoint*".tmp",checkpoint;force=true)
                 end
             end
             for j in eachindex(tt)
