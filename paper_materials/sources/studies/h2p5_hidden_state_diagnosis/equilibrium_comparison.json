@@ -1,0 +1,14 @@
+{
+  "stable": {
+    "internal_phase_slack_rad": -1.6696785128252785,
+    "V5_pu": 0.8570833938482768,
+    "internal_phase_Bus5_rad": 0.17558164661195041
+  },
+  "saddle": {
+    "internal_phase_slack_rad": -1.701215202848659,
+    "V5_pu": 0.8525939614109003,
+    "internal_phase_Bus5_rad": 0.17530167771093352
+  },
+  "gap_slack_rad": 0.03153669002338044,
+  "gap_Bus5_rad": 0.00027996890101689154
+}

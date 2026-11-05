@@ -1,0 +1,54 @@
+{
+  "matched_full_70_state_pairs": 43,
+  "held_original_differential_states": 46,
+  "held_filter_states": 4,
+  "max_coordinate_error": [
+    8.326672684688674e-17,
+    4.440892098500626e-16
+  ],
+  "max_algebraic_residual": 3.3806291099836017e-14,
+  "classification_counts": [
+    {
+      "D1": 10.0,
+      "classification": "negative_running",
+      "count": 24
+    },
+    {
+      "D1": 10.0,
+      "classification": "recovery",
+      "count": 19
+    },
+    {
+      "D1": 20.0,
+      "classification": "negative_running",
+      "count": 23
+    },
+    {
+      "D1": 20.0,
+      "classification": "recovery",
+      "count": 20
+    }
+  ],
+  "horizons": [
+    {
+      "D1": 10.0,
+      "horizon_s": 30.0,
+      "count": 41
+    },
+    {
+      "D1": 10.0,
+      "horizon_s": 100.0,
+      "count": 2
+    },
+    {
+      "D1": 20.0,
+      "horizon_s": 30.0,
+      "count": 25
+    },
+    {
+      "D1": 20.0,
+      "horizon_s": 100.0,
+      "count": 18
+    }
+  ]
+}

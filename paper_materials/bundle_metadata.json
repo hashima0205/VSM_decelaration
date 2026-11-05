@@ -1,0 +1,26 @@
+{
+  "updated": "2026-11-05",
+  "scope": "Only capacitor-compensated VSM studies: B5=1 pu, H=2.5 s, prefault V5>=0.98 pu",
+  "figures": 31,
+  "main_comparison_figures": 30,
+  "compensated_D1_zero_search_figures": 1,
+  "new_simulations": false,
+  "source_files": 297,
+  "selected_report_figures": [
+    "F01",
+    "F02",
+    "F03",
+    "F06",
+    "F11",
+    "F09",
+    "F07",
+    "F16",
+    "F17",
+    "F19",
+    "F21",
+    "F25",
+    "F26",
+    "F27",
+    "F30"
+  ]
+}

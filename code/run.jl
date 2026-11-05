@@ -12,6 +12,11 @@ function params(load,ps,taup,tauq)
  end for p in stages(taup,"main"))...)
 end
 manifest=readlines(joinpath(DATA,isempty(ARGS) ? "representative.csv" : ARGS[1]))
+if manifest[1] != "case,op,load_scale,P1,P2,P3,P7,taup,tauq,T,horizon,level"
+ include(joinpath(@__DIR__,"current_case.jl"))
+ current_manifest(manifest)
+ exit()
+end
 @assert manifest[1]=="case,op,load_scale,P1,P2,P3,P7,taup,tauq,T,horizon,level"
 for row in manifest[2:end]
  a=split(row,',');tag,op=a[1:2];g=parse(Float64,a[3]);ps=parse.(Float64,a[4:7]);taup=parse(Float64,a[8]);tauq=parse(Float64,a[9]);T=parse(Float64,a[10]);horizon=parse(Float64,a[11]);level=a[12]

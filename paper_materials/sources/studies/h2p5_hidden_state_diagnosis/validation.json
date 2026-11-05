@@ -1,0 +1,17 @@
+{
+  "cases": 9,
+  "horizon_s": 1000,
+  "transplant_absolute_time_s": 2.99,
+  "control_initial_dynamic_state_CSV_comparison_max_error": 4.440892098500626e-16,
+  "max_local_phasor_alignment_error": 1.5700924586837752e-16,
+  "all_rotating_cases_remote_machines_negative_running": true,
+  "max_sampled_alg_residual": 4.4572789903440935e-11,
+  "saddle_positive_eigenvalue": 0.0815343879300918,
+  "positive_eigenvalues": 1,
+  "source_sha256": {
+    "run.jl": "a020d4a379b1a791a73e4aaba0bf4420da653d0d547527ac5dc2bb2561254631",
+    "mode_analysis.jl": "5669c6dee43abeb7c5b26ee840d00fa7e953ffca2bef4423ad75a09bc0a0b4f3",
+    "compare.py": "dcb9689732f9bf4855eb0363d04eed92ccc9435b0fc3dbfad26742d68f132b45",
+    "analyze_results.py": "a249f7e37c833bf26263ff007d0861370f7203bad4f8d3391a59a42203fd2e4b"
+  }
+}

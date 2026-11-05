@@ -4,6 +4,9 @@
 !/figures/README.md
 !/figures/01_original/
 !/figures/02_voltage_adjusted/
+!/figures/single_line/
+!/figures/current/
+/runs/
 /data/results/
 /data/cases.csv
 /data/equilibria.csv

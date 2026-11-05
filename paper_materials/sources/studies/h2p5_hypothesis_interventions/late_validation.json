@@ -1,0 +1,6 @@
+{
+  "original_physical_intervention_time_s": 21.15,
+  "identical_dynamic_and_filter_states_to_original_20s": true,
+  "cases": 4,
+  "max_power_balance_error": 2.1010970741031088e-12
+}

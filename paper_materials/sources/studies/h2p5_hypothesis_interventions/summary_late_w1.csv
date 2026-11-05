@@ -1,0 +1,3 @@
+case,classification,turns,root_found,root_residual,root_max_real,root_unstable,endpoint_dynamic_residual,solve_s
+late_r56_075,negative_running,-655.8362031107393,false,0.08431588838557014,NaN,-1,5.913488922410409,128.37578892707825
+late_keep_line45,recovery,0.2718536240684126,true,1.3463216890431917e-11,-0.0018315817378364834,0,3.8211860107426054e-5,22.98063087463379

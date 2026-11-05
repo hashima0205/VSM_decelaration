@@ -1,0 +1,22 @@
+{
+  "absolute_time_range_s": [
+    0,
+    11.15
+  ],
+  "postfault_display_horizon_s": 10,
+  "fault_on_s": 1.0,
+  "clearing_s": 1.15,
+  "phase_reference": "Fixed slack Bus6 voltage phase=0; voltage phases unwrapped without resetting the prefault phase",
+  "voltage_current_representation": "Magnitudes of the simulated complex voltage/current envelopes in pu; not instantaneous 60 Hz carrier waveforms",
+  "primary_power_definition": "P/Q at each bus terminal; supplementary plot includes Pcap used by the VSM swing equation",
+  "sampling_s": {
+    "pre": 0.01,
+    "fault": 0.0005,
+    "post": 0.02
+  },
+  "source": "Existing D1=10/20, H=2.5 s, B5=1, grid_k=0.6812730259441179 baseline trajectories; no interventions and no new integration",
+  "sample_counts": {
+    "10": 903,
+    "20": 903
+  }
+}

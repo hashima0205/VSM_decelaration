@@ -1,0 +1,2 @@
+snapshot,stage,time_absolute_s,is_equilibrium,H_s,M_s,Ddroop,D1,D2,omega_d,load_G_pu,capacitor_B_pu,fault_G_pu,max_algebraic_residual,max_full_residual,source_sha256
+D1_20_post_t5,post,6.15,0,2.5,5,10.0,20.0,100.0,50.0,2.268230115233306,1.0,0.0,1.609823385706477e-15,0.010113930301997698,6a1c9a39ed9ed0c1d6f7932f38f35798335335a4b353aa5085d46fd56f9b66ca

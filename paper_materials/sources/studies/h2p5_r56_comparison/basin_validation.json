@@ -1,0 +1,46 @@
+{
+  "phase_definition": "mean(delta2,delta3,delta7) - unwrap(arg(U5(t)))",
+  "frequency_reference": "60 Hz; vertical coordinate is not d(theta5)/dt divided by 2pi",
+  "baseline_samples_reused": 43,
+  "R75_samples_newly_simulated": 43,
+  "common_dynamic_and_washout_state_pairs": 43,
+  "fixed_other_initial_states": "Both slices use the baseline equilibrium for the other original differential states; z=0. New R75 equilibrium is a projection and need not lie in this slice.",
+  "R75_initial_Bus5_coordinate_offset_rad": 0.010842817037635788,
+  "max_coordinate_error_rad": 5.551115123125783e-17,
+  "root_projections_Bus5_rad": {
+    "baseline": 0.17558164661195041,
+    "r56_075": 0.17866637387112982
+  },
+  "classification_horizons_s": [
+    30,
+    100,
+    300
+  ],
+  "trajectory_display_horizon_postfault_s": 10,
+  "sample_counts": [
+    {
+      "condition": "baseline",
+      "classification": "negative_running",
+      "count": 24
+    },
+    {
+      "condition": "baseline",
+      "classification": "recovery",
+      "count": 19
+    },
+    {
+      "condition": "r56_075",
+      "classification": "negative_running",
+      "count": 12
+    },
+    {
+      "condition": "r56_075",
+      "classification": "recovery",
+      "count": 31
+    }
+  ],
+  "max_algebraic_residual": 1.9411389162726774e-11,
+  "short_trajectory_prefault_and_fault_70_states_identical": true,
+  "short_trajectory_clearing_dynamic_states_identical": true,
+  "baseline_observations_reproduced_tolerance": 1e-07
+}

@@ -1,0 +1,20 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><title>容量補償後VSM・論文資料</title><style>
+@page {size:A4; margin:17mm 16mm 18mm;}
+body {font-family:"Noto Sans CJK JP",sans-serif;color:#162332;font-size:10pt;line-height:1.8;max-width:1000px;margin:auto;}
+h1 {font-size:22pt;line-height:1.5;color:#123453;} h2{font-size:15pt;margin-top:1.6em;border-bottom:1px solid #7992a5;break-after:avoid;} h3{font-size:12pt;break-after:avoid;}
+p{orphans:3;widows:3;} a{color:#18588b;word-break:break-word;} table{border-collapse:collapse;font-size:8.2pt;width:100%;margin:12px 0;} th{background:#eaf0f5;} th,td{border:1px solid #bbc8d1;padding:5px;vertical-align:top;} tr{break-inside:avoid;} thead{display:table-header-group;}
+blockquote{border-left:4px solid #6689a5;padding:4px 14px;background:#f4f7fa;} pre,code{font-family:"Noto Sans Mono",monospace;font-size:8pt;white-space:pre-wrap;} li{margin:3px 0;} .figure-page{break-before:page;break-inside:avoid;} .figure-page img{display:block;max-width:100%;max-height:205mm;object-fit:contain;margin:8px auto;} .figure-page p{font-size:9pt;line-height:1.7;} .small{font-size:8pt;color:#4b5864;} .tag{font-size:9pt;color:#385d77;}
+@media screen {body{padding:30px;} .figure-page{margin:50px 0;padding-top:25px;border-top:2px solid #ccd7df;} .figure-page img{max-height:900px;}}
+</style><body><h1>容量補償後のVSM回転現象：論文執筆用資料</h1>
+<p>2026-11-05更新。収録対象は<strong>Bus5に容量性サセプタンスB=1 puを加え、事故前電圧0.996594324 pu（指定の0.98 pu以上）を確保したH=2.5秒のVSM検討のみ</strong>。</p>
+<ul>
+<li>report/REPORT_JA.pdf：条件、結果の解釈、反例、論文構成案、主要15図の統合レポート。</li>
+<li>report/FIGURE_CATALOG.pdf：補償後の全31図と個別説明。</li>
+<li>figures/main/：既存の主比較30図と、同じ補償条件のD1=0探索図F31。原PNG/PDF/SVGを保存。</li>
+<li>sources/：補償後の各studyの元レポート・CSV・監査JSON、状態対応・ソースコード。</li>
+<li>SOURCE_MANIFEST.csv / SHA256SUMS.txt：コピー元と原本ハッシュ、収録ファイルのハッシュ。</li>
+</ul>
+<p>補償前の検討、Droop参考図、混在していた古い係数比較、今回省くPIエネルギー蓄積の検討は収録していない。新しい時間積分は行っていない。</p>
+<p>主条件はH=2.5 s、M=5 s、D=10、D2=100、ωD=50 s⁻¹、k=0.6812730259441179、B5=1 pu。D1=10の回転、D1=20の回復、D1=10で事故除去時にR56を25%低減した回復例を区別する。0.98 pu条件は事故前に適用する。</p>
+<p>一括ZIPを展開してindex.htmlを開くと、図・表へ移動できる。元レポートの相対リンクは作成当時の作業ツリーに対するものなので、図への入口にはreport/FIGURE_CATALOG.html / CSVを使う。</p>
+<p>大容量binやソルバチェックポイント、元論文PDFは含めない。収録コードは出典・再作図用の参照であり、完全な再実行環境ではない。有限1000秒の回転確認は永久回転の証明と区別する。</p><ul><li><a href="report/REPORT_JA.pdf">統合レポートPDF</a></li><li><a href="report/REPORT_JA.html">統合レポートHTML</a></li><li><a href="report/FIGURE_CATALOG.pdf">全31図の図版集PDF</a></li><li><a href="report/FIGURE_CATALOG.html">全図HTML</a></li></ul></body></html>

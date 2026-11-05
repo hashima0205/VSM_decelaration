@@ -1,0 +1,28 @@
+{
+  "initial_dynamic_and_washout_max_difference": 0,
+  "prefault_B5": 1.0,
+  "prefault_V5_pu": 0.996594323887269,
+  "fixed_H_s": 2.5,
+  "fixed_M": 5,
+  "fixed_Ddroop": 10,
+  "fixed_D1": 10,
+  "fixed_D2": 100,
+  "horizon_s": 1000,
+  "max_power_balance_error": 4.7260806379512126e-11,
+  "baseline_reproduction_endpoint_phase_error_rad": 1.0913936421275139e-11,
+  "baseline_burden_decomposition_pu": {
+    "lost_45_import": 0.6771310259942012,
+    "tie56_terminal_change": 0.5755665192322499,
+    "remote_internal_loss_change": 0.14291414562249707,
+    "load_change": -0.6689828315474959
+  },
+  "source_sha256": {
+    "run.jl": "f532536a1a37643c857e33ef8a67cb4ab585c2944ccb21e705c6fe62f8be2eda",
+    "analyze.py": "893d2e1fab4e49e6d6e43508d825b49112151552777efef200940868b159c8a7"
+  },
+  "interpretation": "Changing line R changes losses, voltage and the P-delta characteristic. Keeping line 4-5 also changes transfer capability and the postfault equilibria. These are matched-initial-state interventions, not isolated replacements of a scalar loss term.",
+  "initial_states_match_original_clearing_reference": true,
+  "independent_reclassification_machine_rows": 48,
+  "all_R_zero_line_losses_exactly_zero": true,
+  "late_max_balance_error": 2.1010970741031088e-12
+}

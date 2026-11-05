@@ -1,0 +1,6 @@
+{
+  "per_machine_classification_verified": true,
+  "max_algebraic_residual": 9.980904991380157e-14,
+  "horizon_s": 1000.0,
+  "max_saved_response_error": 1.8189894035458565e-12
+}

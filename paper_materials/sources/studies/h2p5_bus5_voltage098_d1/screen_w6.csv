@@ -1,0 +1,2 @@
+case,Bcap,grid_k,pre_V5,Ddroop,D1,D2,load_factor,H,M,horizon,classification,remote_turns,pre_max_real,post_max_real
+D1_20p0_h1000,1.0,0.6812730259441179,0.996594323887269,10.0,20.0,100.0,1.0,2.5,5,1000.0,recovery,-0.2004253561907948,-0.0018315814075113095,-0.0018323789281354513

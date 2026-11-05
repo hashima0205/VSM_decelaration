@@ -1,0 +1,636 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><title>容量補償後VSM・統合レポート</title><style>
+@page {size:A4; margin:17mm 16mm 18mm;}
+body {font-family:"Noto Sans CJK JP",sans-serif;color:#162332;font-size:10pt;line-height:1.8;max-width:1000px;margin:auto;}
+h1 {font-size:22pt;line-height:1.5;color:#123453;} h2{font-size:15pt;margin-top:1.6em;border-bottom:1px solid #7992a5;break-after:avoid;} h3{font-size:12pt;break-after:avoid;}
+p{orphans:3;widows:3;} a{color:#18588b;word-break:break-word;} table{border-collapse:collapse;font-size:8.2pt;width:100%;margin:12px 0;} th{background:#eaf0f5;} th,td{border:1px solid #bbc8d1;padding:5px;vertical-align:top;} tr{break-inside:avoid;} thead{display:table-header-group;}
+blockquote{border-left:4px solid #6689a5;padding:4px 14px;background:#f4f7fa;} pre,code{font-family:"Noto Sans Mono",monospace;font-size:8pt;white-space:pre-wrap;} li{margin:3px 0;} .figure-page{break-before:page;break-inside:avoid;} .figure-page img{display:block;max-width:100%;max-height:205mm;object-fit:contain;margin:8px auto;} .figure-page p{font-size:9pt;line-height:1.7;} .small{font-size:8pt;color:#4b5864;} .tag{font-size:9pt;color:#385d77;}
+@media screen {body{padding:30px;} .figure-page{margin:50px 0;padding-top:25px;border-top:2px solid #ccd7df;} .figure-page img{max-height:900px;}}
+</style><body><h1>容量補償を伴う8母線VSM系統の負方向回転現象</h1>
+<h2>論文執筆用・既存図と結果の統合レポート</h2>
+<p>作成日：2026年11月5日。対象：これまでに作成した回転／回復比較、引き込み領域、電力収支、回路介入および状態診断。今回は新しい時間積分を行わず、保存結果を整理した。直近の<strong>PI制御器の仮想エネルギー蓄積・連続散逸の検討は本資料の分析対象と図版から除外</strong>する。</p>
+<p>本資料は論文そのものではなく、論文の図・結果・主張を選ぶための研究資料である。全31図の原本と個別の説明は <a href="FIGURE_CATALOG.html">図一覧</a> に収録した。収録対象をBus5の容量性サセプタンスB=1 pu、H=2.5秒のVSM検討に限定した。主比較30図と、同じ補償条件のD1=0探索図F31を含む。補償前の検討とDroop保存図は収録しない。</p>
+<h2>1. 現時点の研究結果</h2>
+<p>事故前のBus5電圧を0.996594 puへ容量補償し、H=2.5秒とした詳細VSM系統において、事故後に局所安定平衡点が存在する一方で、Bus2・3・7の内部角がslack母線に対して負方向へ回転し続ける応答を1000秒確認した。Bus1は同期回復する。</p>
+<p>基準のD1=10を20へ増加すると、同じ事故シナリオから4機とも位相・周波数の回復基準を満たす。またD1=10を保ち、事故除去時に線路5–6のRだけを25%低減すると、同じ事故除去時の微分状態から回復する。後者は事故前・事故中の軌道まで共通なので、回路変更による分岐を比較しやすい。</p>
+<p>Bus5基準の相対位相は有限範囲でも、Bus5自体が遠方群とともにslackに対して進む。そのため回転の認識には、Bus5相対位相だけでなくslack基準の内部角・周波数を併記する必要がある。</p>
+<p>電流・無効電力・線路損失の増大と回転は連成する。しかし、回転開始後に全線路のRを0にしても回転が1000秒続く条件があり、<strong>線路抵抗損失は、今回観測した回転の維持に必須ではない</strong>。初期状態、受電経路、電力角特性、制御減衰を合わせた説明が必要である。</p>
+<blockquote>
+<p>論文の中心に置ける観測は「局所安定平衡点との共存」「共通位相と局所相対位相の違い」「同じ事故除去状態からの回路依存性」「介入時刻による帰結の違い」である。永久回転、厳密な周期軌道、単一原因の証明、新規性の確定は主張しない。</p>
+</blockquote>
+<h2>2. 系統・制御・事故条件</h2>
+<h3>2.1 現在の主比較に共通する条件</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>設定・定義</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>系統</td>
+<td>8母線、11線路。GFM：Bus1・2・3・7、固定slack：Bus6</td>
+</tr>
+<tr>
+<td>外部系統</td>
+<td>Bus6：1 pu、位相0 rad、60 Hz</td>
+</tr>
+<tr>
+<td>遠方群</td>
+<td>Bus2・3・7の等重み平均。電力合計はこの3機の和</td>
+</tr>
+<tr>
+<td>VSM</td>
+<td>H=2.5 s、M=2H=5 s、ドループ由来D=10</td>
+</tr>
+<tr>
+<td>追加減衰</td>
+<td>基準D1=10、比較D1=20。D2=100、ωD=50 s⁻¹</td>
+</tr>
+<tr>
+<td>P指令</td>
+<td>Bus1/2/3/7：0.5/0.4/0.4/0.4 pu</td>
+</tr>
+<tr>
+<td>Bus5負荷</td>
+<td>定インピーダンス。G=2.2682301152333055 pu</td>
+</tr>
+<tr>
+<td>Bus5補償</td>
+<td>並列容量性B=1 puを事故前・中・後で保持</td>
+</tr>
+<tr>
+<td>事故前Bus5</td>
+<td>電圧0.996594324 pu、負荷P=2.252806709 pu、容量性Q供給0.993200246 pu</td>
+</tr>
+<tr>
+<td>事故後安定点</td>
+<td>基準系統V5=0.857083394 pu。0.98 pu条件は事故前に適用</td>
+</tr>
+<tr>
+<td>系統係数k</td>
+<td>0.6812730259441179。元のk=1.0299に対し線路4–6・5–6のR/Xを同率変更。SCRそのものではない</td>
+</tr>
+<tr>
+<td>基準線路5–6</td>
+<td>R=0.259303579454355、X=0.9677341331081263 pu</td>
+</tr>
+<tr>
+<td>事故</td>
+<td>絶対時刻1.00秒にBus4へ20 puの受動シャント投入</td>
+</tr>
+<tr>
+<td>除去</td>
+<td>絶対時刻1.15秒にシャント除去と線路4–5開放</td>
+</tr>
+<tr>
+<td>状態数</td>
+<td>元の52微分状態＋14代数変数、D2用4状態を加え56微分＋14代数</td>
+</tr>
+</tbody>
+</table>
+<p>対応図：F01は数値なし系統図、F02は事故前平衡点、F03は事故後安定平衡点、F04/F05は実事故応答の除去5秒後である。事故後平衡点図を「回転例が到達した状態」として使用しない。</p>
+<h3>2.2 VSMとD・D1・D2</h3>
+<p>各機のpu内部周波数偏差ν=(ω−ω0)/ω0に対して、</p>
+<pre><code class="language-text">M νdot = Pset − Pcap − (D + D1)ν − D2(ν − z)
+zdot   = ωD(ν − z)
+δdot   = ω0 ν,              ω0 = 2π×60 rad/s
+Pcap   = VCr Igr + VCi Igi, M = 2H
+</code></pre>
+<p>Dは元のP–fドループからの係数、D1は追加の比例項、D2はウォッシュアウト型の過渡項である。D2の伝達関数はD2 s/(s+ωD)であり、一定周波数偏差では追加作用が0になる。D1は一定偏差でも作用するため、D1の変更を純粋な過渡減衰の変更とはしない。基準D1=10では有効定常ドループ勾配1/(10+10)=5%、D1=20では約3.33%である。これはモデルの共通電力ベース上の値。</p>
+<p>内側のLCL回路・電圧／電流PI・Q–V制御・仮想インピーダンス・電流指令制限は既存モデルを保持している。Pフィルタの4状態をνへ変換する実装であり、同じPフィルタを慣性へ二重に追加しない。D1/D2機構はWECC公開REGFM_B1仕様の図2を参照したが、現行モデル全体をREGFM_B1へ置換したものではなく、その既定係数を転記したものでもない。<a href="https://www.wecc.org/sites/default/files/documents/products/2024/Virtual%20Synchronous%20Machine%20Grid-Forming%20Inverter%20Model%20Specification-REGFM_B1.pdf">WECC/UNIFI仕様</a></p>
+<h3>2.3 ケースの区別</h3>
+<table>
+<thead>
+<tr>
+<th>ケース</th>
+<th>共通条件からの差</th>
+<th>事故前・中の軌道</th>
+<th>事故除去時の微分状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C0：基準回転</td>
+<td>D1=10、元の事故後R/X</td>
+<td>基準</td>
+<td>基準</td>
+</tr>
+<tr>
+<td>C1：D1増加回復</td>
+<td>D1=20を全期間適用</td>
+<td>C0と動特性が異なる</td>
+<td>C0と完全同一ではない</td>
+</tr>
+<tr>
+<td>C2：R低減回復</td>
+<td>除去時だけR56を0.75倍、D1=10</td>
+<td>C0と同じ</td>
+<td>C0と同じ56状態</td>
+</tr>
+<tr>
+<td>C3：遅延R低減</td>
+<td>C0の除去20秒後にR56を0.75倍</td>
+<td>C0の保存軌道を使用</td>
+<td>変更時は回転中</td>
+</tr>
+</tbody>
+</table>
+<p>R56=0.75 Rbaseは「25%低減」である。「75%低減」はR56=0.25 Rbaseで、別のケースになる。R変更後の14代数変数は新しい回路へ整合化するため、微分状態が同じでも代数母線電圧は同一とは限らない。</p>
+<h2>3. 回転現象と減衰感度</h2>
+<h3>3.1 容量補償下でも回転が残る</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">D1</th>
+<th style="text-align: right;">観測時間［秒］</th>
+<th style="text-align: right;">遠方平均内部角変化［回転］</th>
+<th style="text-align: right;">終盤平均Δf［Hz］</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">−1674.112913</td>
+<td style="text-align: right;">−1.677325</td>
+<td>負方向回転</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">−734.219117</td>
+<td style="text-align: right;">−0.738503</td>
+<td>負方向回転</td>
+</tr>
+<tr>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">−0.200425</td>
+<td style="text-align: right;">約0</td>
+<td>同期回復</td>
+</tr>
+</tbody>
+</table>
+<p>対応図F06。回転数は事故除去時からの内部角変化/(2π)である。回復例の位相変化が0でなくても、安定点への移動であり持続回転とは異なる。D1を少しでも増やせば回転が消えるという結果ではない。一方、今回試したD1=20は回復した。厳密な臨界D1や広範囲の単調性は求めていない。</p>
+<p>事故後安定点の最大固有値実部は、C0で約−0.001832379 s⁻¹と負である。局所安定であることと、与えた事故軌道がその点へ回復することは別である。</p>
+<h3>3.2 補償後のD1=0探索と刻み幅照合</h3>
+<p>F31は同じB5=1 pu、k=0.6812730259441179、H=2.5秒でD1=0とした探索結果である。事故前V5=0.996594324 puを満たし、1000秒の遠方平均位相変化は約−1691.482778回転だった。最大刻み0.005秒と0.00125秒の照合で回転数差約1.82×10⁻¹⁰を確認した。主比較のD1=10とは減衰係数が異なる補償後の検証として収録する。</p>
+<h2>4. Bus5基準とslack基準の違い</h2>
+<p>Bus5基準の横軸を、θ5=mean(δ2,δ3,δ7)−unwrap(arg(U5))とする。事故前点を0へ移していない。基準系統の事故前θ5=0.182974277 rad、事故後安定点θ5=0.175581647 rad。一方、slack基準の平均内部角は事故前−0.323414657 rad、安定点−1.669678513 radである。</p>
+<p>F07/F08はBus5基準、F09/F10はslack基準、F11は両者の時系列対応を示す。回転時にはBus5も遠方群に追従するため、θ5が有限範囲内でもslackに対する内部角は進み続ける。これはBus5に対する連続スリップを意味しない。</p>
+<p>領域図の縦軸は遠方平均内部周波数−60 Hzであり、移動するBus5を基準とする横軸θ5の時間微分/(2π)とは一致しない。この図を厳密な2状態位相平面と呼ぶのは避け、「投影図」「条件付き初期値断面」と記述する。</p>
+<h2>5. 電圧・電流・P/Qの短時間比較</h2>
+<h3>5.1 D1=10と20の比較</h3>
+<p>F12–F16は事故前から絶対11.15秒（除去後10秒）までの比較。事故区間1.00–1.15秒を薄赤で示す。主図の電流はIg、P/Qは母線端子注入、位相は端子電圧のslack基準位相である。F15に内部角δ、動揺方程式のPcap、フィルタ側Ifを補足する。</p>
+<p>事故中1.05秒には、遠方3機のQ合計は約0.70049/0.70035 pu、平均Igは約0.62702/0.62700 puとほぼ同じだが、周波数偏差は既に−0.07649/−0.07333 Hzと異なる。1.49秒には回復例の電流の方が大きい。したがって、初期電流値の大小だけで結果を説明しない。</p>
+<p>2.99→4.99秒では、回転例の遠方Q合計は約0.805→0.965 pu、平均Igは0.497→0.542 pu、V5は0.836→0.807 puへ変化する。回復例もQは約0.578→0.621 puと増えるが、平均Igは0.456→0.461 pu、V5は0.875→0.868 puと変化が小さい。回転例のΔfは−0.010845→−0.034662 Hzと再び負方向へ離れ、回復例は−0.008344→−0.002373 Hzと0へ近づく。</p>
+<p>この比較はD1による初期周波数応答、位相、ネットワークP/Q・電圧の連成と整合する。Q・電流の増加を単独原因とする証明ではない。</p>
+<h3>5.2 同じ事故軌道からR56を25%低減した比較</h3>
+<p>F19–F24はD1=10を共通にし、除去時のR56だけを変更した比較である。事故前・事故中の全履歴と除去時の56微分状態は一致する。絶対4.99秒（除去後3.84秒）の値は次の通り。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>V5［pu］</th>
+<th>平均Ig［pu］</th>
+<th>遠方Q合計［pu］</th>
+<th>遠方Pcap合計［pu］</th>
+<th>平均Δf［Hz］</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基準回転</td>
+<td>0.806987</td>
+<td>0.542219</td>
+<td>0.965188</td>
+<td>1.248381</td>
+<td>-0.034662</td>
+</tr>
+<tr>
+<td>R56を25%低減・回復</td>
+<td>0.910613</td>
+<td>0.424824</td>
+<td>0.368530</td>
+<td>1.201420</td>
+<td>-0.002522</td>
+</tr>
+</tbody>
+</table>
+<p>GFM端子電圧の平均は同時刻で約0.9784/0.9931 puだが、Bus5の差は0.8070/0.9106 puと大きい。GFM自身の電圧崩壊だけでなく、負荷母線までのネットワーク電圧降下が重要である。</p>
+<p>同じフィルタ状態でも、代数端子電圧Ugが変わると系統側電流の変化率が変わる。実装では例えば</p>
+<pre><code class="language-text">(Lg/ω0) dIg_r/dt = Vc_r − Ug_r − Rg Ig_r + Lg Ig_i
+</code></pre>
+<p>である。回路変更→代数電圧→電流変化率→Pcap/Qcap→内部周波数・位相という経路がある。ただしR変更は損失、電圧、電力角特性を同時に変えるため、この比較を「抵抗損失だけの因果効果」とは呼ばない。</p>
+<h3>5.3 無効電力と容量補償の連成</h3>
+<p>モデルの定義では、Bus5容量性供給Qcap5=B|U5|²、負荷Pload=G|U5|²、直列線路の無効電力吸収Qabs=X|I|²である。V5低下は補償Qを減らし、電流増加は線路Q吸収を増やす。このため、電圧・電流・Qの連成が悪化する経路はある。一方、定インピーダンス負荷のPも電圧低下で減り、回復例でもQ供給は増える。観測された増大だけから、Q–V連成が独立した唯一の引き金とは結論できない。</p>
+<h2>6. 条件付き引き込み領域</h2>
+<h3>6.1 D1比較の断面</h3>
+<p>F07–F10は各D1で同じ43初期状態を使用する。事故後安定点から遠方3機の内部角を一様にずらし、共通周波数偏差を設定する。他の46個の元微分状態と4個のD2状態は共通の安定点値とし、14代数変数を整合化する。積分中は全56状態を動かす。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th style="text-align: right;">回復点</th>
+<th style="text-align: right;">回転点</th>
+<th style="text-align: right;">合計</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1=10</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">43</td>
+</tr>
+<tr>
+<td>D1=20</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">43</td>
+</tr>
+</tbody>
+</table>
+<p>実事故の帰結は10で回転、20で回復するが、粗い断面の分類点数差は1点だけである。点数比は領域の面積比ではなく、これだけで大域的な領域拡大の程度を表さない。</p>
+<h3>6.2 R56比較の断面</h3>
+<p>F17/F18では基準の既存43点を再使用し、R56=0.75倍でも同じ56微分初期状態から43点を計算した。代数整合化でBus5位相が変わるため、横座標を各系統で再計算した。</p>
+<table>
+<thead>
+<tr>
+<th>基準での分類</th>
+<th style="text-align: right;">R低減後に回復</th>
+<th style="text-align: right;">R低減後に回転</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>回復</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>回転</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">12</td>
+</tr>
+</tbody>
+</table>
+<p>今回の標本では12点が回転から回復へ変わった。R低減後も回転初期状態は残る。R低減後の平衡点は共通断面上にあるとは限らず、星はその投影である。実事故軌道も断面外の投影を含み、背景の色との重なりだけで帰結を判定しない。</p>
+<p>背景は30→100→300秒で段階判定し、斜線三角形は頂点分類が混在する領域である。実事故の1000秒検証と、各背景点の短い観測時間は区別する。</p>
+<h2>7. 電力収支と損失仮説</h2>
+<h3>7.1 遠方群の負担増大と全系統の供給量は異なる</h3>
+<p>F25に対応する。全保存点で、GFM端子注入＋slack注入＝Bus5負荷＋事故負荷＋全線路損失を照合している。事故後の遠方部分系統では</p>
+<pre><code class="language-text">Pterminal,remote = Pload + Ploss,remote_internal + P5→6
+</code></pre>
+<p>が成り立つ。P5→6はBus5から線路5–6へ入る送端電力であり、そのままslackへ到達する電力ではない。</p>
+<table>
+<thead>
+<tr>
+<th>指標［pu］</th>
+<th style="text-align: right;">事故前</th>
+<th style="text-align: right;">D1=10回転・終盤平均</th>
+<th style="text-align: right;">D1=20回復・終盤平均</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>遠方Pcap合計</td>
+<td style="text-align: right;">1.200000</td>
+<td style="text-align: right;">1.939797</td>
+<td style="text-align: right;">1.200000</td>
+</tr>
+<tr>
+<td>遠方端子P合計</td>
+<td style="text-align: right;">1.195188</td>
+<td style="text-align: right;">1.921817</td>
+<td style="text-align: right;">1.193280</td>
+</tr>
+<tr>
+<td>Bus5負荷P</td>
+<td style="text-align: right;">2.252807</td>
+<td style="text-align: right;">1.583824</td>
+<td style="text-align: right;">1.666096</td>
+</tr>
+<tr>
+<td>全線路損失</td>
+<td style="text-align: right;">0.243632</td>
+<td style="text-align: right;">0.729982</td>
+<td style="text-align: right;">0.683344</td>
+</tr>
+<tr>
+<td>負荷＋全線路損失</td>
+<td style="text-align: right;">2.496439</td>
+<td style="text-align: right;">2.313806</td>
+<td style="text-align: right;">2.349440</td>
+</tr>
+<tr>
+<td>slack全体のP注入</td>
+<td style="text-align: right;">0.803710</td>
+<td style="text-align: right;">−0.105548</td>
+<td style="text-align: right;">0.658622</td>
+</tr>
+<tr>
+<td>P5→6</td>
+<td style="text-align: right;">−0.434594</td>
+<td style="text-align: right;">0.140972</td>
+<td style="text-align: right;">−0.545506</td>
+</tr>
+</tbody>
+</table>
+<p>終盤は事故除去後950–1000秒の時間加重平均であり、厳密な一周期平均ではない。回転時には瞬時値が周期的に変動する。</p>
+<p>基準回転例では遠方端子Pが約0.727 pu増える。その収支の分解は、4–5受電喪失+0.677、5–6側負担変化+0.576、遠方内部線路損失増加+0.143、Bus5負荷減少−0.669である。これは同時刻の収支分解であり、4要因の独立した因果寄与ではない。</p>
+<p>負荷＋全線路損失の総和は事故前より小さい。したがって「全系統の必要供給量が増えたため回転した」という記述は修正が必要である。「受電経路と分担の変化により遠方群の必要供給が増えた」とする方がデータに合う。</p>
+<h3>7.2 位相差と線路損失</h3>
+<p>5–6の有効損失は</p>
+<pre><code class="language-text">Ploss56 = R56/(R56²+X56²)
+          × (|U5|² + |U6|² − 2|U5||U6| cos(θ5−θ6))
+</code></pre>
+<p>であり、振幅と位相差の両方に依存する。位相を巻き続けても損失が無限に単調増加するわけではない。D1=20も事故前より大きい損失を伴って回復するため、損失の大きさだけでは帰結を決められない。</p>
+<h3>7.3 超過出力と負周波数偏差の釣合い</h3>
+<p>Pcap&gt;Psetは動揺方程式に負方向の加速成分を与える。ν&lt;0ではDとD1の項は正方向に作用する。平均加速度とD2項が小さい回転では、Pcap−Pset ≈ −(D+D1)νが成り立つ。基準の遠方平均Δf≈−0.7385 Hzを用いると、3機の超過出力は約0.7385 puで、観測値約0.7398 puと整合する。</p>
+<p>Psetはこのモデルで出力上限ではない。超過出力と負周波数偏差は同じ釣合いの両側であり、相関だけから発端の因果を決定しない。</p>
+<h2>8. 回路介入による検証と反例</h2>
+<h3>8.1 事故除去直後の介入</h3>
+<p>F26。全条件で事故前・事故中は同じ軌道、除去時の56微分状態は同一。変更に応じて14代数変数だけ整合化した。R変更時はXを固定、X変更時はRを固定する。</p>
+<table>
+<thead>
+<tr>
+<th>変更</th>
+<th>1000秒判定</th>
+<th>位相変化［回転］</th>
+<th>終盤平均Δf［Hz］</th>
+<th>遠方Pcap合計［pu］</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基準</td>
+<td>負方向回転</td>
+<td>-734.219117</td>
+<td>-0.738503</td>
+<td>1.939797</td>
+</tr>
+<tr>
+<td>R56を基準の25%</td>
+<td>同期回復</td>
+<td>-0.127421</td>
+<td>-4.08947e-09</td>
+<td>1.200000</td>
+</tr>
+<tr>
+<td>全線路R=0</td>
+<td>同期回復</td>
+<td>-0.145571</td>
+<td>-4.90355e-09</td>
+<td>1.200000</td>
+</tr>
+<tr>
+<td>R56を基準の75%（25%低減）</td>
+<td>同期回復</td>
+<td>-0.150613</td>
+<td>-7.18836e-09</td>
+<td>1.200000</td>
+</tr>
+<tr>
+<td>R56=0</td>
+<td>同期回復</td>
+<td>-0.123034</td>
+<td>-2.73061e-09</td>
+<td>1.200000</td>
+</tr>
+<tr>
+<td>X56を基準の50%</td>
+<td>同期回復</td>
+<td>-0.025126</td>
+<td>-5.50064e-09</td>
+<td>1.200000</td>
+</tr>
+<tr>
+<td>R56を基準の50%</td>
+<td>同期回復</td>
+<td>-0.135685</td>
+<td>-5.59282e-09</td>
+<td>1.200000</td>
+</tr>
+<tr>
+<td>4–5を維持</td>
+<td>同期回復</td>
+<td>0.014893</td>
+<td>4.0387e-12</td>
+<td>1.200000</td>
+</tr>
+</tbody>
+</table>
+<p>R56を25%低減、X56を半減、4–5を維持など複数の変更で回復した。これらは各回路変更の総合効果を示す。RとXはどちらも電力角特性・電圧特性へ作用するので、Rの結果だけを損失の独立効果と読み替えない。</p>
+<h3>8.2 回転開始後の介入</h3>
+<p>F27。基準軌道の除去20秒後から回路を変更し、そこから1000秒観測した。位相変化の起点は変更時。</p>
+<table>
+<thead>
+<tr>
+<th>変更</th>
+<th>変更後1000秒判定</th>
+<th>位相変化［回転］</th>
+<th>終盤平均Δf［Hz］</th>
+<th>全線路損失［pu］</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>除去20秒後：R56を基準の75%</td>
+<td>負方向回転</td>
+<td>-655.836203</td>
+<td>-0.656148</td>
+<td>0.625523</td>
+</tr>
+<tr>
+<td>除去20秒後：4–5を再接続</td>
+<td>同期回復</td>
+<td>0.271854</td>
+<td>4.95431e-11</td>
+<td>0.243631</td>
+</tr>
+<tr>
+<td>除去20秒後：R56=0</td>
+<td>スリップ後回復</td>
+<td>-0.866073</td>
+<td>-3.99025e-09</td>
+<td>0.096199</td>
+</tr>
+<tr>
+<td>除去20秒後：全線路R=0</td>
+<td>負方向回転</td>
+<td>-548.589725</td>
+<td>-0.54897</td>
+<td>0.000000</td>
+</tr>
+</tbody>
+</table>
+<p>R56を基準の75%へ変更した同じ事故後系統でも、事故除去直後なら回復し、20秒後の回転状態からは回転が続く。初期状態依存性・異なる長時間応答の共存を支持する結果である。ただし厳密な周期アトラクタの存在や大域的な二安定性の数学的証明ではない。</p>
+<p>全線路R=0の遅延介入でも、遠方Pcap≈1.756 pu、Δf≈−0.549 Hzで回転が続いた。全線路の有効損失は0だが、負荷GとGFMフィルタ抵抗は残る。これは「線路抵抗損失が回転維持の必要条件」という説明に対する反例であり、「系統全体のあらゆる散逸が0」という試験ではない。</p>
+<p>R56=0や4–5の再接続では回復した。R/Xを事故時に瞬時変更する操作は、機構確認の仮想介入であって、そのまま実運用対策を提案するものではない。</p>
+<h2>9. 平衡点・鞍点と未表示状態の診断</h2>
+<h3>9.1 角度差はradで表示して解釈する</h3>
+<table>
+<thead>
+<tr>
+<th>投影</th>
+<th style="text-align: right;">事故後安定点</th>
+<th style="text-align: right;">近傍鞍点</th>
+<th style="text-align: right;">差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>slack基準の遠方平均内部角［rad］</td>
+<td style="text-align: right;">−1.669678513</td>
+<td style="text-align: right;">−1.701215203</td>
+<td style="text-align: right;">0.031536690</td>
+</tr>
+<tr>
+<td>Bus5基準の相対内部角［rad］</td>
+<td style="text-align: right;">0.175581647</td>
+<td style="text-align: right;">0.175301678</td>
+<td style="text-align: right;">0.000279969</td>
+</tr>
+<tr>
+<td>Bus5電圧［pu］</td>
+<td style="text-align: right;">0.857083394</td>
+<td style="text-align: right;">0.852593961</td>
+<td style="text-align: right;">0.004489432</td>
+</tr>
+</tbody>
+</table>
+<p>slack基準の角度差は約1.81°＝0.03154 radであり、数値として大きい差ではない。ここから「大きな角度差がある」と説明しない。角度の近さだけでも安定余裕は決められず、平衡点の安定性と多変数の状態方向を見る。Bus5基準ではこの差がさらに圧縮される。</p>
+<p>鞍点は定常残差約4.2×10⁻¹²、縮約56状態の正固有値1個λ≈+0.0815344 s⁻¹で検証した。F30は両投影と局所不安定モードを示す。局所左固有ベクトルへの投影は補助診断であり、その符号を大域的な引き込み境界とは扱わない。</p>
+<h3>9.2 同時刻の状態差と置換試験</h3>
+<p>絶対2.99秒の平均内部角は基準−1.823351 rad、R低減回復例−1.481641 radで、差は約0.342 rad。これは安定点と鞍点の角度差0.03154 radとは別の量である。</p>
+<p>F28は電気量を各機の内部角へ整合させた局所座標でも比較し、共通位相と振幅差を分離した。Qフィルタ遅れが回転例だけで著しく大きい結果ではない。F29は同時刻に回復例の指定状態群を元の基準回路へ移植した1000秒の仮想試験で、内部角・速度を含む状態群や全状態の置換で帰結が回復へ変わった。</p>
+<p>内部角・速度の置換ではVc・Ig・Ifの複素成分も位相整合している。δとνだけの2変数置換と記述しない。PI・Qフィルタ等の一時的置換の帰結も元レポートに保存したが、これは状態値の診断であり、制御器の継続的作用やエネルギー蓄積の因果を否定する根拠にはしない。今回省くPIエネルギー検討をこの図から代用して論じない。</p>
+<h2>10. 数値計算・判定・検証</h2>
+<p>Julia 1.12.5、固定した既存依存環境、Rodas5P、相対許容誤差1e−9、絶対許容誤差1e−11、最大刻み0.005秒を基本とした。事故切替で14代数変数を整合化し、D2のzはリセットせず引き継ぐ。短時間図の保存刻みは事故前0.01秒、事故中0.0005秒、事故後0.02秒。保存点を直接描画し、平滑化や補間は行っていない。</p>
+<p>1000秒の実事故・介入と、30→100→300秒で段階判定する背景点を区別する。回復は各機の位相・周波数基準による。背景判定の例では終盤最大|Δf|&lt;1e−4 Hz、位相誤差&lt;0.002 rad、位相幅&lt;0.005 rad。回転は2回転超の総変位と後半を分割した複数窓の進行方向等を確認し、機別に分類する。全PI状態の完全収束、永久回転、厳密周期性を要求した判定ではない。</p>
+<p>主要な確認記録：</p>
+<ul>
+<li>D1比較：最大代数残差約6.48×10⁻¹⁴、イベント間z差0、事故前全保存点でV5≥0.996594 pu。</li>
+<li>容量補償D1=0探索：最大刻み0.005→0.00125秒の1000秒照合で回転数差約1.82×10⁻¹⁰。これはD1=0の照合であり、全介入ケースを細分化再計算したという意味ではない。</li>
+<li>R56領域比較：43組の微分・D2初期状態一致、最大横座標誤差約5.55×10⁻¹⁷ rad、最大代数残差約1.94×10⁻¹¹。</li>
+<li>回路介入：変更前の初期56状態の一致、毎保存時刻の電力収支、検証済み事故後平衡点・固有値を照合。遅延試験で最初のNewton法が失敗しても、同じ全パラメータで確認済みの根を参照し、不存在とはしない。</li>
+<li>状態診断：9条件×1000秒、位相整合誤差約1.57×10⁻¹⁶、鞍点固有対とモード分解を検査。</li>
+</ul>
+<p>値の出典はsources内の各studyのverified.csv、validation.json、basin_validation.json等。収録図のコピー元とハッシュはSOURCE_MANIFEST.csvに保存した。</p>
+<h2>11. 論文の主張と証拠の対応</h2>
+<table>
+<thead>
+<tr>
+<th>主張候補</th>
+<th>根拠図・表</th>
+<th>言える範囲</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>容量補償・H=2.5秒でも回転応答を確認</td>
+<td>F02、F06、D1検証表</td>
+<td>選んだ運転点・事故・有限1000秒</td>
+</tr>
+<tr>
+<td>局所安定点が存在しても事故後回復しない</td>
+<td>F03、F30、根・固有値表</td>
+<td>局所安定性と大域過渡応答の違い</td>
+</tr>
+<tr>
+<td>Bus5相対位相だけでは共通回転を捉えにくい</td>
+<td>F07、F09–F11</td>
+<td>この系統の投影・基準選択の効果</td>
+</tr>
+<tr>
+<td>同じ除去状態からR低減で回復に変わる</td>
+<td>F17–F22、F26</td>
+<td>回路変更の総合効果</td>
+</tr>
+<tr>
+<td>電流・Q・電圧低下と位相進行が連成</td>
+<td>F16、F19、F21、F25</td>
+<td>相関＋実装上の作用経路。単独原因の証明ではない</td>
+</tr>
+<tr>
+<td>介入時刻・初期状態で帰結が異なる</td>
+<td>F26、F27</td>
+<td>同じ変更後パラメータでも異なる有限時間応答</td>
+</tr>
+<tr>
+<td>線路抵抗損失は維持の必要条件ではない</td>
+<td>F27、遅延全R=0結果</td>
+<td>線路Rについての反例。負荷・フィルタ抵抗は残る</td>
+</tr>
+<tr>
+<td>共通内部角・速度を含む状態方向が重要</td>
+<td>F28–F30</td>
+<td>指定時刻の置換と局所モード診断</td>
+</tr>
+</tbody>
+</table>
+<p>避ける記述：「電圧補償があれば常に安定」「H=2.5秒なので全係数が実機一般の代表値」「損失増加だけが唯一の原因」「小さい位相差だから安定」「Bus5基準の背景色で実軌道の帰結が決まる」「数値的な長時間回転＝永久回転の証明」。</p>
+<h2>12. 論文の構成案と図の選択</h2>
+<p>仮題（日本語）：<strong>容量補償を伴う多機VSM系統における負方向回転と同期回復の初期状態依存性</strong>。</p>
+<p>仮題（英語）：<strong>Negative Running and State-Dependent Synchronization Recovery in a Capacitor-Compensated Multi-VSM Network</strong>。</p>
+<p>研究目的は、局所安定な事故後平衡点がある条件で、回転／回復を分ける状態・回路の影響と、表示基準による機構の見え方を整理することとする。新規性は国際的な既存のVSM過渡安定性・回転アトラクタ研究と照合してから確定する。</p>
+<table>
+<thead>
+<tr>
+<th>本文の図案</th>
+<th>使用する既存図</th>
+<th>対応する説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>図1：系統と制御方程式</td>
+<td>F01、条件表、VSM式</td>
+<td>系統・負荷・補償・事故と係数を固定</td>
+</tr>
+<tr>
+<td>図2：回転と回復の実応答</td>
+<td>F06から代表2条件、F16</td>
+<td>1000秒の帰結と短い発達過程</td>
+</tr>
+<tr>
+<td>図3：基準位相による見え方</td>
+<td>F07/F09/F11から再配置</td>
+<td>Bus5基準とslack基準の対応</td>
+</tr>
+<tr>
+<td>図4：同じ除去状態からのR比較</td>
+<td>F17、F19/F21</td>
+<td>回路依存性と電圧・電流・Qの差</td>
+</tr>
+<tr>
+<td>図5：介入と反例</td>
+<td>F26/F27の主要条件</td>
+<td>損失だけの説明を避け、状態依存性を示す</td>
+</tr>
+<tr>
+<td>図6：平衡点近傍の補助診断</td>
+<td>F30</td>
+<td>0.03154 radの差と局所不安定方向</td>
+</tr>
+</tbody>
+</table>
+<p>短いLetterでは図1–5を中心に統合し、全状態F23/F24、全置換F29、全背景点表、補償後D1=0探索F31は補足へ回す。既存図をそのまま全部本文へ並べず、同じケース記号・rad表示・P/Q定義へそろえた最終図を別途作る。</p>
+<p>本文の順序は、Introduction→Model and disturbance→Observed running and recovery→Matched-state network interventions→Phase-reference and equilibrium interpretation→Limitations and conclusionを候補とする。考察では有利な介入結果だけでなく、遅延全R=0でも回転した反例を含める。</p>
+<h3>投稿前に残る確認</h3>
+<p>系統条件は追跡された定常枝の折返しに近く、事故前電圧が高いことを広い安定余裕の保証にはしない。物理的な各機定格MVA・共通puベース・補償容量の対応を確定し、H・Dの一般性を過大に説明しない。厳密な周期軌道や安定多様体まで主張する場合には追加の解析が必要である。最終図の選定後には主張に直接使うケースの刻み幅照合を揃える余地がある。本資料整理ではこれらの新計算は実施していない。</p>
+<h2>13. 出典・履歴と資料の使い方</h2>
+<h3>13.1 シミュレーションの出典</h3>
+<p>元のDroop環境：<a href="https://github.com/hashima0205/gfm-deceleration-separated-equilibria">hashima0205/gfm-deceleration-separated-equilibria</a>。VSM適用先：<a href="https://github.com/hashima0205/VSM_decelaration">hashima0205/VSM_decelaration</a>。状態変換とD1/D2の実装はsources/VSM_decelaration/code/vsm.jl、補償後の検証は収録した各studyの監査表を参照する。今回のstudy一式が既にGitへ公開されているという意味ではない。</p>
+<p>主要な保存元はstudies/h2p5_bus5_voltage098_d1、h2p5_bus5_basins、h2p5_short_timeplots、h2p5_r56_comparison、h2p5_power_mechanism、h2p5_hypothesis_interventions、h2p5_hidden_state_diagnosisである。各図には図一覧CSVからコピー元を追跡できる。</p>
+<h3>13.2 制御機構・係数比較の既存出典</h3>
+<ol>
+<li>Du et al., <em>Virtual Synchronous Machine Grid-Forming Inverter Model Specification (REGFM_B1)</em>, UNIFI-2024-6-1 / NREL/TP-5D00-90260, June 2024。D1比例項・D2ウォッシュアウト機構の参考。現行詳細モデル全体の妥当性や本研究係数の標準値を保証するものではない。<a href="https://www.wecc.org/sites/default/files/documents/products/2024/Virtual%20Synchronous%20Machine%20Grid-Forming%20Inverter%20Model%20Specification-REGFM_B1.pdf">WECC公式PDF</a></li>
+<li>D’Arco and Suul, <em>Virtual Synchronous Machines – Classification of Implementations and Analysis of Equivalence to Droop Controllers for Microgrids</em>, IEEE PowerTech 2013, DOI:10.1109/PTC.2013.6652456。DroopとVSMの対応という既存の背景。<a href="https://www.sintef.no/en/publications/publication/1038500/">著者所属機関の書誌・要旨</a></li>
+</ol>
+<p>今回追加されたPIエネルギー論文とそれへの連続散逸検討は、ユーザー指定により本資料の議論・図版・結論に使用しない。</p>
+<h3>13.3 図とデータの入口</h3>
+<p>統合レポートの後半には主要15図を収録した。全図のPNG/PDF/SVG、用途・条件・限界はFIGURE_CATALOG.html / CSV / PDFを参照する。sourcesには元の図用CSV、元レポート、監査JSON、実行・解析コードをコピーした。大容量binや完全な再実行環境は含めない。全コピー元のハッシュと対応表により、原図・原レポートを変更していないことを確認できる。</p><h2>主要図版集</h2><section class="figure-page"><div class="tag">Bus5 B=1 pu · F01</div><h2>F01　8母線系統の単線結線図</h2><img src="../figures/main/single_line/schematic.png" alt="8母線系統の単線結線図"><p>GFMはBus1・2・3・7、slackはBus6、定インピーダンス負荷と並列コンデンサはBus5。全11線路。事故除去時には4–5を開放する。数値を省いた系統構成図。</p><p class="small"><a href="../figures/main/single_line/schematic.png">PNG</a> / <a href="../figures/main/single_line/schematic.pdf">PDF</a> / <a href="../figures/main/single_line/schematic.svg">SVG</a><br>元ファイル：VSM_decelaration/figures/single_line/schematic</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F02</div><h2>F02　事故前平衡点の電圧・P/Q潮流</h2><img src="../figures/main/single_line/pre_equilibrium.png" alt="事故前平衡点の電圧・P/Q潮流"><p>H=2.5 s、D=10、B5=1 pu、k=0.681273。V5=0.996594 pu。単線図の位相表示は度、線路両端は母線から線路への注入を正とする。</p><p class="small"><a href="../figures/main/single_line/pre_equilibrium.png">PNG</a> / <a href="../figures/main/single_line/pre_equilibrium.pdf">PDF</a> / <a href="../figures/main/single_line/pre_equilibrium.svg">SVG</a><br>元ファイル：VSM_decelaration/figures/single_line/pre_equilibrium</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F03</div><h2>F03　事故後安定平衡点の電圧・P/Q潮流</h2><img src="../figures/main/single_line/post_equilibrium.png" alt="事故後安定平衡点の電圧・P/Q潮流"><p>4–5開放後の安定平衡点。V5=0.857083 pu。事故除去直後でも回転軌道の到達状態でもない。D1=10/20で平衡点の位置は共通。位相は度。</p><p class="small"><a href="../figures/main/single_line/post_equilibrium.png">PNG</a> / <a href="../figures/main/single_line/post_equilibrium.pdf">PDF</a> / <a href="../figures/main/single_line/post_equilibrium.svg">SVG</a><br>元ファイル：VSM_decelaration/figures/single_line/post_equilibrium</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F06</div><h2>F06　容量補償下のD1感度と1000秒応答</h2><img src="../figures/main/h2p5_bus5_voltage098_d1/comparison.png" alt="容量補償下のD1感度と1000秒応答"><p>B5=1、V5_pre=0.996594 pu、H=2.5 s。D1=0.1/10では遠方3機が負方向回転、D1=20では回復。D1変更は比例減衰と定常ドループ勾配の両方に作用する。</p><p class="small"><a href="../figures/main/h2p5_bus5_voltage098_d1/comparison.png">PNG</a> / <a href="../figures/main/h2p5_bus5_voltage098_d1/comparison.pdf">PDF</a><br>元ファイル：studies/h2p5_bus5_voltage098_d1/comparison</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F11</div><h2>F11　Bus5基準とslack基準の時系列比較</h2><img src="../figures/main/h2p5_bus5_basins/phase_reference_comparison.png" alt="Bus5基準とslack基準の時系列比較"><p>Bus5も遠方群とともに動くため、Bus5相対位相が有限範囲でもslackへの回転が継続する。同期の判定基準と表示座標を区別するための図。</p><p class="small"><a href="../figures/main/h2p5_bus5_basins/phase_reference_comparison.png">PNG</a> / <a href="../figures/main/h2p5_bus5_basins/phase_reference_comparison.pdf">PDF</a><br>元ファイル：studies/h2p5_bus5_basins/phase_reference_comparison</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F09</div><h2>F09　D1比較：slack基準の条件付き引き込み領域</h2><img src="../figures/main/h2p5_bus5_basins/basins_slack.png" alt="D1比較：slack基準の条件付き引き込み領域"><p>F07と同じ初期値・分類をslack Bus6基準の平均内部角で表示。D1=10は左へ進み続け、D1=20は安定点へ近づく。位相はrad、折返しなし。</p><p class="small"><a href="../figures/main/h2p5_bus5_basins/basins_slack.png">PNG</a> / <a href="../figures/main/h2p5_bus5_basins/basins_slack.pdf">PDF</a><br>元ファイル：studies/h2p5_bus5_basins/basins_slack</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F07</div><h2>F07　D1比較：Bus5基準の条件付き引き込み領域</h2><img src="../figures/main/h2p5_bus5_basins/basins_bus5.png" alt="D1比較：Bus5基準の条件付き引き込み領域"><p>各D1で同じ43初期状態を使用。横軸は平均内部角−Bus5電圧位相、縦軸は60 Hz基準の内部周波数偏差。縦軸は横軸の時間微分ではない。実事故軌道は断面外の投影を含む。</p><p class="small"><a href="../figures/main/h2p5_bus5_basins/basins_bus5.png">PNG</a> / <a href="../figures/main/h2p5_bus5_basins/basins_bus5.pdf">PDF</a><br>元ファイル：studies/h2p5_bus5_basins/basins_bus5</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F16</div><h2>F16　D1比較：同じ軸上での回転・回復の対比較</h2><img src="../figures/main/h2p5_short_timeplots/paired_recovery_comparison.png" alt="D1比較：同じ軸上での回転・回復の対比較"><p>Q・Igは回転例だけでなく回復例でも増える。初期周波数差、累積位相ずれ、P/Q・電圧の連成として解釈し、Qや電流の増加だけを因果の証明にしない。</p><p class="small"><a href="../figures/main/h2p5_short_timeplots/paired_recovery_comparison.png">PNG</a> / <a href="../figures/main/h2p5_short_timeplots/paired_recovery_comparison.pdf">PDF</a><br>元ファイル：studies/h2p5_short_timeplots/paired_recovery_comparison</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F17</div><h2>F17　R56比較：Bus5基準の条件付き引き込み領域</h2><img src="../figures/main/h2p5_r56_comparison/basins_bus5.png" alt="R56比較：Bus5基準の条件付き引き込み領域"><p>左基準、右R56=0.75 R56,base、X固定。43組で同じ56微分初期状態を使用。回復19→31点、回転24→12点。12点が回転から回復へ変化した。</p><p class="small"><a href="../figures/main/h2p5_r56_comparison/basins_bus5.png">PNG</a> / <a href="../figures/main/h2p5_r56_comparison/basins_bus5.pdf">PDF</a><br>元ファイル：studies/h2p5_r56_comparison/basins_bus5</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F19</div><h2>F19　R56比較：4機の電圧・電流・P/Q・位相</h2><img src="../figures/main/h2p5_r56_comparison/gfm_responses.png" alt="R56比較：4機の電圧・電流・P/Q・位相"><p>D1=10を共通とし、事故除去時だけR56を25%低減。事故前・事故中と除去時の微分状態は共通。0–11.15秒の同時刻比較。</p><p class="small"><a href="../figures/main/h2p5_r56_comparison/gfm_responses.png">PNG</a> / <a href="../figures/main/h2p5_r56_comparison/gfm_responses.pdf">PDF</a><br>元ファイル：studies/h2p5_r56_comparison/gfm_responses</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F21</div><h2>F21　R56比較：Bus5・連系線・容量補償の応答</h2><img src="../figures/main/h2p5_r56_comparison/bus5_slack_responses.png" alt="R56比較：Bus5・連系線・容量補償の応答"><p>4.99秒のV5は0.8070/0.9106 pu、遠方Q合計0.9652/0.3685 pu。R変更は損失・電圧・電力角特性を同時に変えるため、損失だけの独立効果とはしない。</p><p class="small"><a href="../figures/main/h2p5_r56_comparison/bus5_slack_responses.png">PNG</a> / <a href="../figures/main/h2p5_r56_comparison/bus5_slack_responses.pdf">PDF</a><br>元ファイル：studies/h2p5_r56_comparison/bus5_slack_responses</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F25</div><h2>F25　電力収支・線路損失・スイング方程式</h2><img src="../figures/main/h2p5_power_mechanism/power_mechanism.png" alt="電力収支・線路損失・スイング方程式"><p>D1=10/20。遠方Pcap超過と負周波数偏差の釣合い、slackの供給、負荷減少と損失増加を区別する。終盤値は除去後950–1000秒の時間加重平均。</p><p class="small"><a href="../figures/main/h2p5_power_mechanism/power_mechanism.png">PNG</a> / <a href="../figures/main/h2p5_power_mechanism/power_mechanism.pdf">PDF</a><br>元ファイル：studies/h2p5_power_mechanism/power_mechanism</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F26</div><h2>F26　事故除去直後の回路介入比較</h2><img src="../figures/main/h2p5_hypothesis_interventions/interventions.png" alt="事故除去直後の回路介入比較"><p>共通の56微分初期状態からR56・X56・全R・4–5接続を変更した8条件、各1000秒。仮想介入による機構検証であり実機操作の提案ではない。</p><p class="small"><a href="../figures/main/h2p5_hypothesis_interventions/interventions.png">PNG</a> / <a href="../figures/main/h2p5_hypothesis_interventions/interventions.pdf">PDF</a><br>元ファイル：studies/h2p5_hypothesis_interventions/interventions</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F27</div><h2>F27　回転開始後の回路介入比較</h2><img src="../figures/main/h2p5_hypothesis_interventions/late_interventions.png" alt="回転開始後の回路介入比較"><p>基準の除去20秒後の状態から4条件を各1000秒。R56=0.75や全線路R=0でも回転が続く。介入時刻・初期状態依存性の重要な反例。</p><p class="small"><a href="../figures/main/h2p5_hypothesis_interventions/late_interventions.png">PNG</a> / <a href="../figures/main/h2p5_hypothesis_interventions/late_interventions.pdf">PDF</a><br>元ファイル：studies/h2p5_hypothesis_interventions/late_interventions</p></section><section class="figure-page"><div class="tag">Bus5 B=1 pu · F30</div><h2>F30　安定点・鞍点の投影と不安定モード</h2><img src="../figures/main/h2p5_hidden_state_diagnosis/equilibrium_projections.png" alt="安定点・鞍点の投影と不安定モード"><p>slack基準の角度差0.0315367 rad、Bus5基準では0.000279969 rad。鞍点は正固有値1個、λ=0.0815344 s⁻¹。角度差や局所投影だけを大域的境界の証明にしない。</p><p class="small"><a href="../figures/main/h2p5_hidden_state_diagnosis/equilibrium_projections.png">PNG</a> / <a href="../figures/main/h2p5_hidden_state_diagnosis/equilibrium_projections.pdf">PDF</a><br>元ファイル：studies/h2p5_hidden_state_diagnosis/equilibrium_projections</p></section></body></html>

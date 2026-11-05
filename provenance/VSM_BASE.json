@@ -7,6 +7,7 @@
   "vsm_source_path": "vsm/code/vsm.jl",
   "changes": "VSM coordinate/RHS adapter, integration routing, VSM-inclusive restart signatures, documentation and tests. All upstream data, provenance dependencies and saved results retained.",
   "modified_upstream_files": [
+    ".gitignore",
     "README.md",
     "code/engine12.jl",
     "code/model.jl",
@@ -21,7 +22,10 @@
     "code/run_tau010_basin.jl",
     "code/run_tau010_chord_basin.jl",
     "code/run_trajectory_voltage_probes.jl",
-    "code/run_voltage_refined_probe.jl"
+    "code/run_voltage_refined_probe.jl",
+    "data/demo.csv",
+    "data/representative.csv",
+    "data/smoke.csv"
   ],
   "additional_damping": {
     "date": "2026-11-04",
@@ -42,5 +46,21 @@
       "retcode": "Success"
     },
     "test_assertions_passed": 92
+  },
+  "current_case": {
+    "date": "2026-11-05",
+    "H_s": 2.5,
+    "mp_pu": 0.1,
+    "D1": 0,
+    "D2": 100,
+    "omega_d_per_s": 50,
+    "Bus5_B_pu": 1,
+    "grid_k": 0.6812730259441179,
+    "entry": "code/run.jl",
+    "input": "data/representative.csv",
+    "frozen_inputs": "data/current_reference",
+    "legacy_inputs": "data/legacy",
+    "paper_packet": "paper_materials",
+    "note": "Only current input manifests and dispatch updated; upstream frozen network/model sources are unchanged."
   }
 }

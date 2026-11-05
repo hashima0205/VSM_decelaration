@@ -1,0 +1,10 @@
+name,value
+H,2.5
+mp,0.1
+D1,0
+D2,100
+omega_d,50
+Bcap,1
+grid_k,0.6812730259441179
+load_G,2.2682301152333055
+fault_G,20

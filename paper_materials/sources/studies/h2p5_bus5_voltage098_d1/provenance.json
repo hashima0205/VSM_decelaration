@@ -1,0 +1,6 @@
+{
+  "capacitor_model": "Constant capacitive shunt present in all stages, Qcap=Bcap*abs(V5)^2; PQLoad Q_load_p=-Bcap*vref2.",
+  "simulation_commit": "1614c0ebc58ae8fc9bb478b78f8a7e16c21e0673",
+  "search_source_sha256": "3dd050062e4716b3d778903c20a1d44de77d3a8ec3307d013d7b2545e59acba7",
+  "scope": "Finite-horizon search with Bus5 capacitive shunt and pre_V5>=0.98; network topology/dispatch retained, line2/3 impedance changed using grid_k/1.0299; load conductance multiplier recorded."
+}

@@ -1,0 +1,7 @@
+# Preserve copied Drive originals and accept their existing CSV line endings.
+*.csv whitespace=cr-at-eol
+paper_materials/** -text -whitespace
+*.svg -whitespace
+*.png binary
+*.pdf binary
+*.gz binary

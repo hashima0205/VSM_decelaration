@@ -1,0 +1,59 @@
+{
+  "phase_definition": "theta5 = (delta2+delta3+delta7)/3 - unwrap(arg(V5(t))); no prefault or postfault angle subtraction",
+  "frequency_definition": "mean internal frequency of Bus2/3/7 minus 60 Hz; NOT the derivative of theta5 divided by 2pi",
+  "prefault_theta5_rad": 0.1829742768426999,
+  "postfault_stable_theta5_rad": 0.17558164661195041,
+  "section": "Remote three internal angles and frequency states shifted uniformly; other 46 original differential states and all 4 D2 washout states at postfault stable equilibrium initially. All differential states then integrated.",
+  "initial_washout": "z=0 at all four machines",
+  "note": "Conditional slice in 56 differential dimensions; actual event trajectory is a projection and generally outside this slice. Mixed triangles are not a resolved boundary.",
+  "sample_count": 86,
+  "classification_horizons_s": [
+    30,
+    100,
+    300
+  ],
+  "coordinate_checks": [
+    {
+      "D1": 10,
+      "stage": "pre",
+      "min_V5_pu": 0.9965943238872684,
+      "max_bus5_phase_step_rad": 4.440892098500626e-16
+    },
+    {
+      "D1": 10,
+      "stage": "fault",
+      "min_V5_pu": 0.5570505126038523,
+      "max_bus5_phase_step_rad": 0.14090513829942009
+    },
+    {
+      "D1": 10,
+      "stage": "post",
+      "min_V5_pu": 0.7149854677631606,
+      "max_bus5_phase_step_rad": 0.3082568993704504
+    },
+    {
+      "D1": 20,
+      "stage": "pre",
+      "min_V5_pu": 0.9965943238872684,
+      "max_bus5_phase_step_rad": 2.220446049250313e-16
+    },
+    {
+      "D1": 20,
+      "stage": "fault",
+      "min_V5_pu": 0.5570505126038525,
+      "max_bus5_phase_step_rad": 0.1409051381914927
+    },
+    {
+      "D1": 20,
+      "stage": "post",
+      "min_V5_pu": 0.8569669588375308,
+      "max_bus5_phase_step_rad": 0.31013707483738684
+    }
+  ],
+  "source_sha256": {
+    "run_basins.jl": "4659eaea033730089cb7fb2ae7d6ca9347e5d10b2fb9ffada5371fc824e6aeb1",
+    "export_trajectories.jl": "3fa42e4b5091124599eaac3b80265558db5db3e9b64aa91d5fec38cbf13fa09b",
+    "plot_basins.py": "83d21eb218490085035647dd33b1983759a7971af6ce864dd48c51fe6dfd7c2f"
+  },
+  "simulation_commit": "1614c0ebc58ae8fc9bb478b78f8a7e16c21e0673"
+}

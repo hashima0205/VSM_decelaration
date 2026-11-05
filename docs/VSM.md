@@ -1,3 +1,5 @@
+> 現在の標準入口と基準値は[CURRENT_CASE.md](CURRENT_CASE.md)を参照してください。以下は初回移植時の記録です。
+
 > D₁・D₂の追加後の設定・状態数は[VSM_DAMPING.md](VSM_DAMPING.md)を参照してください。以下の等価性・参照値照合は追加減衰を無効にした場合です。
 
 # Droop環境へのVSM適用

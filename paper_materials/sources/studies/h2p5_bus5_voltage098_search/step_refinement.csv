@@ -1,0 +1,16 @@
+stage,quantity,max_abs_difference
+pre,delta_rad,1.27675647831893e-15
+pre,omega_rad_s,0.0
+pre,Pcap_pu,9.325873406851315e-15
+pre,U_r_pu,1.4432899320127035e-15
+pre,U_i_pu,1.3877787807814457e-15
+fault,delta_rad,9.63895629979561e-13
+fault,omega_rad_s,1.1652900866465643e-11
+fault,Pcap_pu,7.475359220521227e-11
+fault,U_r_pu,7.347938923984998e-11
+fault,U_i_pu,1.885697153980459e-11
+post,delta_rad,7.516064215451479e-09
+post,omega_rad_s,1.1160523172293324e-08
+post,Pcap_pu,2.798595355457678e-09
+post,U_r_pu,6.635812593858148e-09
+post,U_i_pu,7.438118398983562e-09

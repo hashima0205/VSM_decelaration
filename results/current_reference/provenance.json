@@ -1,0 +1,30 @@
+{
+  "H": 2.5,
+  "mp": 0.1,
+  "D1": 0,
+  "D2": 100,
+  "omega_d": 50,
+  "Bcap": 1,
+  "source": "studies/h2p5_bus5_voltage098_search/B1.0_k0.6812730259441179_L1.0_D10.0_D10.0_D2100.0_h1000",
+  "source_full_states_sha256": "afbeb0d5037b29cc343b120d2b1b851d2345b21ea072f77a4da0e2dbeab2a398",
+  "horizon_s": 1000,
+  "remote_turns": -1691.4827778752112,
+  "parameters": {
+    "H": 2.5,
+    "mp": 0.1,
+    "D1": 0.0,
+    "D2": 100.0,
+    "omega_d": 50.0,
+    "Bcap": 1.0,
+    "grid_k": 0.6812730259441179,
+    "load_G": 2.2682301152333055,
+    "P1": 0.5,
+    "P2": 0.4,
+    "P3": 0.4,
+    "P7": 0.4,
+    "tauq": 0.02,
+    "fault_on": 1.0,
+    "T": 0.15,
+    "fault_G": 20.0
+  }
+}

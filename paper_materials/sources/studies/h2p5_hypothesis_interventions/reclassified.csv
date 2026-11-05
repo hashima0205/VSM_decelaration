@@ -1,0 +1,13 @@
+case,root_reference_case,classification,turns
+all_R_zero,all_R_zero,recovery,-0.14557138886608453
+baseline,baseline,negative_running,-734.219117235804
+keep_line45,keep_line45,recovery,0.014892790956739944
+late_all_R_zero,all_R_zero,negative_running,-548.5897247005346
+late_keep_line45,keep_line45,recovery,0.2718536240684126
+late_r56_075,r56_075,negative_running,-655.8362031107393
+late_r56_zero,r56_zero,recovery_after_slip,-0.8660726599566283
+r56_025,r56_025,recovery,-0.12742072094371742
+r56_050,r56_050,recovery,-0.13568469724250626
+r56_075,r56_075,recovery,-0.15061257485470253
+r56_zero,r56_zero,recovery,-0.1230341731140647
+x56_050,x56_050,recovery,-0.025126114618933437

@@ -1,0 +1,12 @@
+{
+  "source_study": "studies/h2p5_bus5_voltage098_search/B1.0_k0.6812730259441179_L1.0_D10.0_D10.0_D2100.0_h1000",
+  "source_sha256": {
+    "pre_root.csv": "20e50b9be1c94d73c1e06637574370f6fb7b83f29fae5ca02403aa4664c6edc1",
+    "post_root.csv": "c82be07a97c28c843ba4eab6810373eb26554a860b660ce692beec6ad71cc218",
+    "pre_parameters.csv": "c3277c25ca758bcf19a7127f0ffe476deffc704618e75194e19cc0a9d8aa4515",
+    "fault_parameters.csv": "99d038957b4fc5a1eb8f8cd81c38dab4ffeb6142da27e978f116e34ccaed3ad8",
+    "post_parameters.csv": "0820e07d11429f245703c6a1db817e1f5a303f4d31c87863c56fdc778cc9b18c"
+  },
+  "source_full_states_sha256": "afbeb0d5037b29cc343b120d2b1b851d2345b21ea072f77a4da0e2dbeab2a398",
+  "scope": "Capacitor compensated VSM: H=2.5 s, mp=0.10, D1=0, D2=100, B5=1"
+}

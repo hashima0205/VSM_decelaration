@@ -1,0 +1,33 @@
+{
+  "snapshot": {
+    "snapshot": "D1_10_post_t5",
+    "stage": "post",
+    "time_absolute_s": 6.15,
+    "is_equilibrium": 0,
+    "H_s": 2.5,
+    "M_s": 5,
+    "Ddroop": 10.0,
+    "D1": 10.0,
+    "D2": 100.0,
+    "omega_d": 50.0,
+    "load_G_pu": 2.268230115233306,
+    "capacitor_B_pu": 1.0,
+    "fault_G_pu": 0.0,
+    "max_algebraic_residual": 2.2620794126737565e-15,
+    "max_full_residual": 1.3807714123240655,
+    "source_sha256": "4be9271c56a03ab91cf9cc1584910afdce1fd861c1052da99e1fad7da0ab9ac8"
+  },
+  "balance": {
+    "GFM_terminal_P_pu": 2.066196294656891,
+    "slack_P_pu": 0.13699667653071995,
+    "load_P_pu": 1.2219688539815934,
+    "capacitor_Q_pu": 0.5387323119356009,
+    "fault_P_pu": 0.0,
+    "line_P_loss_pu": 0.9812241172060162,
+    "line_Q_loss_pu": 3.661978259024773,
+    "P_balance_error_pu": 1.2212453270876722e-15,
+    "max_nodal_power_error_pu": 1.8636792506699138e-15
+  },
+  "input_directory": "/home/students1/hashima/PES_letter/VSM_decelaration/data/single_line/D1_10_post_t5",
+  "line_sign_convention": "P_from,Q_from: from_bus into line; P_to,Q_to: to_bus into line. Absorbed complex power = sum of both terminal powers."
+}

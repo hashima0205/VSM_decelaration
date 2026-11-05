@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "capacitor-compensated VSM only",
+  "figures": 31,
+  "source_hashes_verified": 297,
+  "capacitor_column_tables_verified_B_equals_1": 13,
+  "snapshot_metadata_B_equals_1_H_equals_2p5": true,
+  "unwanted_study_files_absent": true,
+  "generated_HTML_links_verified": true,
+  "pdf_pages": {
+    "REPORT_JA": 25,
+    "FIGURE_CATALOG": 32
+  },
+  "new_simulations": false
+}

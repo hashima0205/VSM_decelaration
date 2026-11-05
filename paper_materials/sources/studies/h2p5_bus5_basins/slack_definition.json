@@ -1,0 +1,19 @@
+{
+  "reference": "Fixed slack/infinite bus Bus6, phase=0 rad, frequency=60 Hz",
+  "phase_definition": "(delta2+delta3+delta7)/3; unwrapped; no equilibrium or prefault subtraction",
+  "prefault_theta_rad": -0.3234146567647695,
+  "postfault_stable_theta_rad": -1.6696785128252785,
+  "sample_count": 86,
+  "same_classifications_and_triangles_as": "Bus5 reference figures",
+  "main_view_xlim_rad": [
+    -2.25,
+    -0.2
+  ],
+  "wide_view_xlim_rad": [
+    -120,
+    0
+  ],
+  "display_postfault_horizon_s": 30,
+  "numerical_integration": "No new integration; transformed coordinates from existing initial 70-state vectors and saved event trajectories.",
+  "source_sha256": "5d1293e5325e8e3af4af46e6c7db005547b6e90d116248dd290cb8c63a2620f2"
+}
